@@ -10,12 +10,8 @@
         <b-nav-item href="#" disabled>help</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown text="操作" right>
-          <b-dropdown-item href="#/maintain/regionAdd">add region</b-dropdown-item>
-          <b-dropdown-item href="#/maintain/machineAdd">add machine</b-dropdown-item>
-          <b-dropdown-item href="#/maintain/processTypeAdd">add processType</b-dropdown-item>
-          <b-dropdown-item href="#/maintain/processAdd">add process</b-dropdown-item>
-          <b-dropdown-item href="#/maintain/serviceAdd">add service</b-dropdown-item>
+        <b-nav-item-dropdown text="Operate" right>
+          <b-dropdown-item href="#">do something</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown right>
           <template slot="button-content">
