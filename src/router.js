@@ -1,8 +1,8 @@
 import login from './views/login'
 import register from './views/register'
 import home from './views/home'
-import firstPage from './modules/pages/firstPage'
-
+import showMachine from './modules/devops/showMachine'
+import addMachine from './modules/devops/addMachine'
 export default [
   {
     path: '/',
@@ -21,9 +21,21 @@ export default [
     children: [
       {
         path: '',
-        name: 'firstPage',
-        component: firstPage
+        name: 'showMachine',
+        component: showMachine
+      }
+    ]
+  },
+  {
+    path: '/maintain',
+    name: 'maintain',
+    children: [
+      {
+        path: '/addMachine',
+        name: 'addMachine',
+        component: addMachine
       }
     ]
   }
+
 ]

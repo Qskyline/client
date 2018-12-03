@@ -4,14 +4,11 @@
     <b-navbar-brand href="#/home">devops</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
-        <b-nav-item href="#">menu1</b-nav-item>
-        <b-nav-item href="#">menu2</b-nav-item>
-        <b-nav-item href="#">menu3</b-nav-item>
-        <b-nav-item href="#" disabled>help</b-nav-item>
+        <b-nav-item href="#/home">Machines</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown text="Operate" right>
-          <b-dropdown-item href="#">do something</b-dropdown-item>
+          <b-dropdown-item href="#/maintain/addMachine">add machine</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown right>
           <template slot="button-content">
