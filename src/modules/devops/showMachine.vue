@@ -19,22 +19,15 @@
             sortable: true
           },
           {
-            key: 'port',
+            key: 'sshPort',
             sortable: true
           },
           {
-            key: 'user',
+            key: 'loginUser',
+            sortable: true
           },
           {
-            key: 'password',
-            label: 'Password',
-          },
-          {
-            key: 'status',
-            sortable: true,
-          },
-          {
-            key: 'region',
+            key: 'tags',
             sortable: true,
           }
         ]

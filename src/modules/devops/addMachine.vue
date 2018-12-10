@@ -3,6 +3,17 @@
         <b-col cols="12" sm="12" md="11" lg="6" xl="6">
             <vue-form :state="formstate" v-model="formstate" @submit.prevent="submit">
                 <validate auto-label class="form-group required-field">
+                    <label>LoginType*</label>
+                    <select class="form-control" name="loginType" required v-model.lazy="machine.loginType">
+                        <option :value="password">Password</option>
+                        <option :value="privateKey">Key</option>
+                    </select>
+                    <field-messages name="loginType" show="$touched || $dirty || $submitted" class="form-control-feedback">
+                        <div>Success!</div>
+                        <div slot="required">请选择"LoginType"</div>
+                    </field-messages>
+                </validate>
+                <validate auto-label class="form-group required-field">
                     <label>Ip*</label>
                     <input type="text" name="ip" class="form-control" required v-model.lazy="machine.ip">
                     <field-messages name="ip" show="$touched || $submitted" class="form-control-feedback">
@@ -37,16 +48,12 @@
                         <div class="error" slot="max">22～10000为有效输入</div>
                     </field-messages>
                 </validate>
-
                 <validate auto-label class="form-group required-field">
-                    <label>区域*</label>
-                    <select class="form-control" name="region" required v-model.lazy="machine.region">
-                        <option :value="null">Choose...</option>
-                        <option :value="region.id" v-for="region in regions">{{region.name}}</option>
-                    </select>
-                    <field-messages name="region" show="$touched || $dirty || $submitted" class="form-control-feedback">
-                        <div>Success!</div>
-                        <div slot="required">请选择"区域"</div>
+                    <label>Tags*</label>
+                    <input type="text" name="tags" class="form-control" required v-model.lazy="machine.tags">
+                    <field-messages name="tags" show="$touched || $submitted" class="form-control-feedback">
+                        <div class="success">Success!</div>
+                        <div class="error" slot="required">请填写"Tags"</div>
                     </field-messages>
                 </validate>
                 <div class="py-2 text-center">
@@ -63,6 +70,7 @@
       return {
         formstate: {},
         machine: {
+          loginType: '',
           ip: '',
           loginUser: '',
           loginPassword: '',
@@ -72,28 +80,11 @@
         regions: []
       }
     },
-    created() {
-      var func = this.GLOBAL.func;
-      func.post(this.$http, '/security/getAllRegion.do').then(
-        (response) => {
-          var show = func.postSuccessCallback(response, this.$router);
-          if (show.isSuccess) {
-            this.regions = show.data;
-          } else {
-            this.$emit('msg', show);
-          }
-        },
-        (response) => {
-          var show = func.postFailedCallback(response);
-          this.$emit('msg', show);
-        }
-      );
-    },
     methods: {
       submit: function () {
         if (this.formstate.$valid) {
           var func = this.GLOBAL.func;
-          func.post(this.$http, '/security/machineAdd.do', this.machine).then(
+          func.post(this.$http, '/security/addMachine.do', this.machine).then(
             (response) => {
               var show = func.postSuccessCallback(response, this.$router);
               this.$emit('msg', show);
