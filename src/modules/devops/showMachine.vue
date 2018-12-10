@@ -37,7 +37,7 @@
       var func = this.GLOBAL.func;
       func.post(this.$http, '/security/getAllMachine.do').then(
         (response) => {
-          var show = func.postSuccessCallback(response, this.$router);
+          var show = func.postSuccessCallback(response.body, this.$router);
           if (show.isSuccess) {
             this.machines = show.data;
           } else {
@@ -45,7 +45,7 @@
           }
         },
         (response) => {
-          var show = func.postFailedCallback(response);
+          var show = func.postFailedCallback(response.body);
           this.$emit('msg', show);
         }
       )

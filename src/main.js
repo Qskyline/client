@@ -10,6 +10,8 @@ import store from './vuex/index'
 import VueForm from 'vue-form'
 import Meta from 'vue-meta'
 import _global from './modules/global'
+import axios from 'axios'
+Vue.prototype.$qhttp = axios
 
 // import VueCookie from 'vue-cookie'
 

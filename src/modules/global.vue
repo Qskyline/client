@@ -49,9 +49,10 @@ function postSuccessCallback(response, _router) {
     showDismissibleAlert: false,
     dismissSecs: 0
   };
-  switch(response.body.statusCode) {
+  debugger
+  switch(response.statusCode) {
     case runStatus.STATUS_LOGGED:
-      result.data = response.body.data;
+      result.data = response.data;
       result.msg_type = false;
       result.msg = 'SUCCESS!';
       result.stat = 'success';

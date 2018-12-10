@@ -5,8 +5,8 @@
                 <validate auto-label class="form-group required-field">
                     <label>LoginType*</label>
                     <select class="form-control" name="loginType" required v-model.lazy="machine.loginType">
-                        <option :value="password">Password</option>
-                        <option :value="privateKey">Key</option>
+                        <option value="password">Password</option>
+                        <option value="privateKey">Key</option>
                     </select>
                     <field-messages name="loginType" show="$touched || $dirty || $submitted" class="form-control-feedback">
                         <div>Success!</div>
@@ -70,7 +70,7 @@
       return {
         formstate: {},
         machine: {
-          loginType: '',
+          loginType: 'password',
           ip: '',
           loginUser: '',
           loginPassword: '',
@@ -84,6 +84,29 @@
       submit: function () {
         if (this.formstate.$valid) {
           var func = this.GLOBAL.func;
+          this.$qhttp.post('/security/addMachine.do', this.machine, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(
+            (response) => {
+              console.log("success")
+              var show = func.postSuccessCallback(response.data, this.$router);
+              this.$emit('msg', show);
+              console.log(show)
+              if (show.isSuccess) {
+                this.formstate._reset();
+                Object.assign(this.$data, this.$options.data());
+              }
+            }
+          ).catch(
+            (response) => {
+              console.log("failed")
+              var show = func.postFailedCallback(response.data);
+              this.$emit('msg', show);
+            }
+          );
+          /*var func = this.GLOBAL.func;
           func.post(this.$http, '/security/addMachine.do', this.machine).then(
             (response) => {
               var show = func.postSuccessCallback(response, this.$router);
@@ -97,7 +120,7 @@
               var show = func.postFailedCallback(response);
               this.$emit('msg', show);
             }
-          );
+          );*/
         }
       }
     }

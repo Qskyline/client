@@ -29,13 +29,13 @@ export default [
   {
     path: '/maintain',
     name: 'maintain',
+    component: home,
     children: [
       {
-        path: '/addMachine',
+        path: 'addMachine',
         name: 'addMachine',
         component: addMachine
       }
     ]
   }
-
 ]
