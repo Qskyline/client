@@ -43,12 +43,13 @@
           } else {
             this.$emit('msg', show);
           }
-        },
+        }
+      ).catch(
         (response) => {
           var show = func.postFailedCallback(response.data);
           this.$emit('msg', show);
         }
-      )
+      );
     }
   }
 </script>

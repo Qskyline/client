@@ -5,7 +5,7 @@
 <script>
 export default {
 	metaInfo: {
-    	title: 'easCloud',
+    	title: 'devops',
       	titleTemplate: null,
       	meta: [
       		{charset: 'utf-8'},
