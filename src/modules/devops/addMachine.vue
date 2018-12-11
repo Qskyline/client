@@ -84,16 +84,14 @@
       submit: function () {
         if (this.formstate.$valid) {
           var func = this.GLOBAL.func;
-          this.$qhttp.post('/security/addMachine.do', this.machine, {
+          func.post('/security/addMachine.do', this.machine, {
             headers: {
               'Content-Type': 'application/json'
             }
           }).then(
             (response) => {
-              console.log("success")
               var show = func.postSuccessCallback(response.data, this.$router);
               this.$emit('msg', show);
-              console.log(show)
               if (show.isSuccess) {
                 this.formstate._reset();
                 Object.assign(this.$data, this.$options.data());
@@ -101,26 +99,10 @@
             }
           ).catch(
             (response) => {
-              console.log("failed")
               var show = func.postFailedCallback(response.data);
               this.$emit('msg', show);
             }
           );
-          /*var func = this.GLOBAL.func;
-          func.post(this.$http, '/security/addMachine.do', this.machine).then(
-            (response) => {
-              var show = func.postSuccessCallback(response, this.$router);
-              this.$emit('msg', show);
-              if (show.isSuccess) {
-                this.formstate._reset();
-                Object.assign(this.$data, this.$options.data());
-              }
-            },
-            (response) => {
-              var show = func.postFailedCallback(response);
-              this.$emit('msg', show);
-            }
-          );*/
         }
       }
     }

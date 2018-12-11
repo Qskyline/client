@@ -77,15 +77,14 @@
 </template>
 
 <script>
-  import md5 from 'js-md5'
-
   export default {
     created() {
       var _runStatus = this.GLOBAL.runStatus;
-      var prefix = this.GLOBAL.config.prefix;
-      this.$http.post(prefix + '/security/check_loginStatus.do').then(
+      var func = this.GLOBAL.func;
+      func.post('/security/check_loginStatus.do').then(
         (response) => {
-          switch (response.body.statusCode) {
+          var response_data = response.data;
+          switch (response_data.statusCode) {
             case _runStatus.STATUS_LOGGED:
               this.$router.push({path: '/home'});
               break;
@@ -94,15 +93,11 @@
             case _runStatus.STATUS_SESSION_SINGLE_USER_RESTRICTION:
             case _runStatus.STATUS_ACCESS_DENY:
               this.isShow = true;
-              this.getVerifyCode(response);
+              this.getVerifyCode(response_data.data);
               break;
-            default :
-            //之后再说
           }
-        },
-        (response) => {
         }
-      )
+      );
     },
     data() {
       return {
@@ -135,17 +130,21 @@
       submit: function () {
         if (this.formstate.$valid) {
           var _loginStatus = this.GLOBAL.loginStatus;
-          var prefix = this.GLOBAL.config.prefix;
+          var func = this.GLOBAL.func;
           var router = this.$router;
           var userEncrypt = {};
           userEncrypt.name = this.user.name;
-          userEncrypt.password = md5(this.user.password);
+          userEncrypt.password = this.md5(this.user.password);
           userEncrypt.isRememberMe = this.user.isRememberMe;
           userEncrypt.verify = this.user.verify;
-
-          this.$http.post(prefix + '/security/login.do', userEncrypt).then(
+          func.post('/security/login.do', this.Qs.stringify(userEncrypt), {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }).then(
             (response) => {
-              switch (response.body.statusCode) {
+              var response_data = response.data
+              switch (response_data.statusCode) {
                 case _loginStatus.LOGIN_SUCCESS:
                   router.push({path: '/home'});
                   break;
@@ -167,7 +166,7 @@
                 case _loginStatus.LOGIN_VERIFYCODE_ERROR:
                 case _loginStatus.LOGIN_VERIFYCODE_TIMEOUT:
                 case _loginStatus.LOGIN_UNKNOWN_ERROR:
-                  this.loginInfo = response.body.errMsg;
+                  this.loginInfo = response_data.errMsg;
                   this.showDismissibleAlert = true;
                   break;
                 case _loginStatus.LOGIN_SECURITY_SQLINJECTION:
@@ -179,9 +178,10 @@
                   this.showDismissibleAlert = true;
               };
               this.getVerifyCode(response);
-            },
-            (response) => {
-              this.loginInfo = 'Request Timeout!';
+            }
+          ).catch(
+            () => {
+              this.loginInfo = 'System Error!';
               this.showDismissibleAlert = true;
             }
           );
@@ -191,21 +191,22 @@
         }
       },
       flushVerifyCode: function () {
-        var prefix = this.GLOBAL.config.prefix;
-        this.$http.post(prefix + '/security/flushVerifyCode.do').then(
+        var func = this.GLOBAL.func;
+        func.post('/security/flushVerifyCode.do').then(
           (response) => {
-            this.getVerifyCode(response);
-          },
-          (response) => {
-            this.loginInfo = 'Request Timeout!';
+            this.getVerifyCode(response.data.data);
+          }
+        ).catch(
+          () => {
+            this.loginInfo = 'System Error!';
             this.showDismissibleAlert = true;
           }
         );
       },
-      getVerifyCode: function (response) {
-        if (response.body.data != null && typeof (response.body.data.needVerifyCode) !== "undefined" && response.body.data.needVerifyCode == true) {
+      getVerifyCode: function (data) {
+        if (data != null && typeof (data.needVerifyCode) !== "undefined" && data.needVerifyCode == true) {
           this.isShowVerifyCode = true;
-          this.verifyCodeUrl = "background-image: url(data:image/png;base64," + response.body.data.image + ");";
+          this.verifyCodeUrl = "background-image: url(data:image/png;base64," + data.image + ");";
         }
       }
     }

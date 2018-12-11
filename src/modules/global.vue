@@ -1,7 +1,8 @@
 <script>
+import axios from 'axios'
 const config = {
   prefix: ''
-}
+};
 
 const registerStatus = {
   REGISTER_SUCCESS: 0,
@@ -9,7 +10,7 @@ const registerStatus = {
   REGISTER_FAILED_M_E: 2,   //MobliePhomeNumber is already exist.
   REGISTER_FAILED_UNKNOWN_ERROR: 3,   //Unknown error.
   REGISTER_FAILED_SECURITYCHECK: 4
-}
+};
 
 const loginStatus = {
   LOGIN_SUCCESS: 100,
@@ -21,7 +22,7 @@ const loginStatus = {
   LOGIN_VERIFYCODE_ERROR: 106,
   LOGIN_VERIFYCODE_TIMEOUT: 107,
   LOGIN_UNKNOWN_ERROR: 108
-}
+};
 
 const runStatus = {
   STATUS_LOGGED: 200,
@@ -29,15 +30,15 @@ const runStatus = {
   STATUS_SESSION_TIMEOUT: 202,
   STATUS_SESSION_SINGLE_USER_RESTRICTION: 203,
   STATUS_ACCESS_DENY: 204
-}
+};
 
 const logoutStatus = {
   LOGOUT_SUCCESS: 300
-}
+};
 
 const operationStatus = {
   OPERATION_FAILED: 400
-}
+};
 
 function postSuccessCallback(response, _router) {
   var result = {
@@ -49,7 +50,6 @@ function postSuccessCallback(response, _router) {
     showDismissibleAlert: false,
     dismissSecs: 0
   };
-  debugger
   switch(response.statusCode) {
     case runStatus.STATUS_LOGGED:
       result.data = response.data;
@@ -102,7 +102,7 @@ function postSuccessCallback(response, _router) {
   return result;
 }
 
-function postFailedCallback(response) {
+function postFailedCallback() {
   var result = {
     isSuccess: false,
     data: '',
@@ -119,9 +119,9 @@ function postFailedCallback(response) {
   return result;
 }
 
-function post(http, url, params) {
+function post(url, params, profile) {
   var _url = config.prefix + url;
-  return http.post(_url, params);
+  return axios.post(_url, params, profile);
 }
 
 export default {

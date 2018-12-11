@@ -27,16 +27,18 @@ export default {
 	methods: {
 	    logout: function() {
 	      var _logoutStatus = this.GLOBAL.logoutStatus;
-        var prefix = this.GLOBAL.config.prefix;
-	      this.$http.post(prefix + '/security/logout.do').then(
+	      var func = this.GLOBAL.func;
+          func.post('/security/logout.do').then(
 	        (response) => {
-	          if(response.body == _logoutStatus.LOGOUT_SUCCES) return true
-	          else return false
-	        },
-	        (response) => {
-	          return false
+	          var response_data = response.data;
+	          if(response_data == _logoutStatus.LOGOUT_SUCCES) return true;
+	          else return false;
 	        }
-	      );
+	      ).catch(
+            () => {
+              return false;
+            }
+          );
 	    }
   	}
 }

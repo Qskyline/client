@@ -54,7 +54,6 @@
 </div></template>
 
 <script>
-import md5 from 'js-md5'
 export default {
   data() {
     return {
@@ -85,15 +84,20 @@ export default {
       if (this.formstate.$valid) {
         var router = this.$router;
         var _registerStatus = this.GLOBAL.registerStatus;
-        var prefix = this.GLOBAL.config.prefix;
+        var func = this.GLOBAL.func;
         var userEncrypt = {};
         userEncrypt.name = this.user.name;
         userEncrypt.mobile = this.user.mobile;
-        userEncrypt.password = md5(this.user.password);
-        userEncrypt.confirm = md5(this.user.confirm);
-        this.$http.post(prefix + '/security/register.do', userEncrypt).then(
+        userEncrypt.password = this.md5(this.user.password);
+        userEncrypt.confirm = this.md5(this.user.confirm);
+        func.post('/security/register.do', this.Qs.stringify(userEncrypt), {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).then(
           (response) => {
-            switch(response.body.statusCode) {
+            var response_data = response.data;
+            switch(response_data.statusCode) {
               case _registerStatus.REGISTER_SUCCESS:
                 router.push({name: 'login'});
                 break;
@@ -101,18 +105,17 @@ export default {
               case _registerStatus.REGISTER_FAILED_M_E:
               case _registerStatus.REGISTER_FAILED_UNKNOWN_ERROR:
               case _registerStatus.REGISTER_FAILED_SECURITYCHECK:
-                this.loginInfo = response.body.errMsg;
+                this.loginInfo = response_data.errMsg;
                 this.showDismissibleAlert = true;
                 break;
-              default:
-                //之后再说
             }
-          },
-          (response) => {
-            this.loginInfo = 'Request Timeout!'
-            this.showDismissibleAlert = true
           }
-        )
+        ).catch(
+          () => {
+            this.loginInfo = 'System Error!';
+            this.showDismissibleAlert = true;
+          }
+        );
       }
     }
   }
