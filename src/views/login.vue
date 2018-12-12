@@ -177,7 +177,7 @@
                   this.loginInfo = 'Unknown error!';
                   this.showDismissibleAlert = true;
               };
-              this.getVerifyCode(response);
+              this.getVerifyCode(response_data);
             }
           ).catch(
             () => {
