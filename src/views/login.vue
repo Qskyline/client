@@ -67,7 +67,7 @@
 
                     <b-row no-gutters class="row_submit">
                         <b-col>
-                            <b-button variant="secondary" type="submit" class="login_button">提交</b-button>
+                            <b-button variant="secondary" type="submit" class="login_button">submit</b-button>
                         </b-col>
                     </b-row>
                 </vue-form>
