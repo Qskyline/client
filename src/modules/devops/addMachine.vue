@@ -9,24 +9,21 @@
                         <option value="privateKey">Key</option>
                     </select>
                     <field-messages name="loginType" show="$touched || $dirty || $submitted" class="form-control-feedback">
-                        <div>Success!</div>
-                        <div slot="required">请选择"LoginType"</div>
+                        <div slot="required">Please input content</div>
                     </field-messages>
                 </validate>
                 <validate auto-label class="form-group required-field">
                     <label>Ip*</label>
                     <input type="text" name="ip" class="form-control" required v-model.lazy="machine.ip">
                     <field-messages name="ip" show="$touched || $submitted" class="form-control-feedback">
-                        <div class="success">Success!</div>
-                        <div class="error" slot="required">请填写"Ip"</div>
+                        <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
                 <validate auto-label class="form-group required-field">
                     <label>LoginUser*</label>
                     <input type="text" name="loginUser" class="form-control" required v-model.lazy="machine.loginUser">
                     <field-messages name="loginUser" show="$touched || $submitted" class="form-control-feedback">
-                        <div class="success">Success!</div>
-                        <div class="error" slot="required">请填写"LoginUser"</div>
+                        <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
                 <validate auto-label class="form-group required-field">
@@ -34,16 +31,14 @@
                     <input type="text" name="loginPassword" class="form-control" required
                            v-model.lazy="machine.loginPassword">
                     <field-messages name="loginPassword" show="$touched || $submitted" class="form-control-feedback">
-                        <div class="success">Success!</div>
-                        <div class="error" slot="required">请填写"LoginPassword"</div>
+                        <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
                 <validate auto-label class="form-group required-field">
                     <label>LoginPort*</label>
                     <input type="number" name="loginPort" class="form-control" min="22" max="10000" required v-model.lazy="machine.loginPort">
                     <field-messages name="loginPort" show="$touched || $submitted" class="form-control-feedback">
-                        <div class="success">Success!</div>
-                        <div class="error" slot="required">请填写合法"LoginPort"</div>
+                        <div class="error" slot="required">Please input content</div>
                         <div class="error" slot="min">22～10000为有效输入</div>
                         <div class="error" slot="max">22～10000为有效输入</div>
                     </field-messages>
@@ -52,8 +47,7 @@
                     <label>Tags*</label>
                     <input type="text" name="tags" class="form-control" required v-model.lazy="machine.tags">
                     <field-messages name="tags" show="$touched || $submitted" class="form-control-feedback">
-                        <div class="success">Success!</div>
-                        <div class="error" slot="required">请填写"Tags"</div>
+                        <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
                 <div class="py-2 text-center">
