@@ -39,8 +39,8 @@
                     <input type="number" name="loginPort" class="form-control" min="22" max="10000" required v-model.lazy="machine.loginPort">
                     <field-messages name="loginPort" show="$touched || $submitted" class="form-control-feedback">
                         <div class="error" slot="required">Please input content</div>
-                        <div class="error" slot="min">22～10000为有效输入</div>
-                        <div class="error" slot="max">22～10000为有效输入</div>
+                        <div class="error" slot="min">the range is between 22 and 10000</div>
+                        <div class="error" slot="max">the range is between 22 and 10000</div>
                     </field-messages>
                 </validate>
                 <validate auto-label class="form-group required-field">
