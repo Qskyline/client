@@ -295,4 +295,12 @@
     .login_button {
         width: 100%;
     }
+
+    /*vue animation*/
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
 </style>

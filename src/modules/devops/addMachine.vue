@@ -50,6 +50,11 @@
                         <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
+                
+
+
+
+
                 <div class="py-2 text-center">
                     <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
