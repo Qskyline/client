@@ -68,7 +68,7 @@
           ip: '',
           loginUser: '',
           loginPassword: '',
-          loginPort: '',
+          loginPort: 22,
           region: ''
         },
         regions: []

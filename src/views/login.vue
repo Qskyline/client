@@ -10,68 +10,70 @@
         </b-row>
 
         <b-row align-v="center" align-h="center" class="row_login_frame">
-            <b-col class="col_login_frame" cols="10" md="4" lg="3" xl="2.1">
-                <b-row no-gutters class="text-center row_logo">
-                    <b-col>devops</b-col>
-                </b-row>
-                <b-row no-gutters align-h="center">
-                    <b-col cols="10">
-                        <hr class="line">
-                    </b-col>
-                </b-row>
-                <vue-form :state="formstate" v-model="formstate" @submit.prevent="submit">
-                    <validate auto-label class="form-group required-field">
-                        <input
-                                type="text"
-                                name="name"
-                                :style="backgroundDiv"
-                                class="form-control login_input_username login_input"
-                                placeholder="Enter your name"
-                                required pattern="^[a-zA-Z][a-zA-Z|_|\-]{3,19}$"
-                                v-model.lazy="user.name">
-                    </validate>
-                    <validate auto-label class="form-group required-field">
-                        <input
-                                type="password"
-                                name="password"
-                                :style="backgroundDiv"
-                                class="form-control login_input_password login_input"
-                                placeholder="Enter your password"
-                                required maxlength="16" minlength="8"
-                                v-model.lazy="user.password">
-                    </validate>
-                    <div class="verifyCode-frame" v-if="isShowVerifyCode">
+            <transition name="fade">
+                <b-col class="col_login_frame" cols="10" md="4" lg="3" xl="2.1">
+                    <b-row no-gutters class="text-center row_logo">
+                        <b-col>devops</b-col>
+                    </b-row>
+                    <b-row no-gutters align-h="center">
+                        <b-col cols="10">
+                            <hr class="line">
+                        </b-col>
+                    </b-row>
+                    <vue-form :state="formstate" v-model="formstate" @submit.prevent="submit">
                         <validate auto-label class="form-group required-field">
                             <input
                                     type="text"
-                                    name="verify"
-                                    class="form-control login_input_verify login_input"
-                                    placeholder="Verify Code"
-                                    required maxlength="4" minlength="4"
-                                    v-model.lazy="user.verify">
+                                    name="name"
+                                    :style="backgroundDiv"
+                                    class="form-control login_input_username login_input"
+                                    placeholder="Enter your name"
+                                    required pattern="^[a-zA-Z][a-zA-Z|_|\-]{3,19}$"
+                                    v-model.lazy="user.name">
                         </validate>
-                        <div class="verifyCode-image" :style="verifyCodeUrl" @click="flushVerifyCode"></div>
-                    </div>
+                        <validate auto-label class="form-group required-field">
+                            <input
+                                    type="password"
+                                    name="password"
+                                    :style="backgroundDiv"
+                                    class="form-control login_input_password login_input"
+                                    placeholder="Enter your password"
+                                    required maxlength="16" minlength="8"
+                                    v-model.lazy="user.password">
+                        </validate>
+                        <div class="verifyCode-frame" v-if="isShowVerifyCode">
+                            <validate auto-label class="form-group required-field">
+                                <input
+                                        type="text"
+                                        name="verify"
+                                        class="form-control login_input_verify login_input"
+                                        placeholder="Verify Code"
+                                        required maxlength="4" minlength="4"
+                                        v-model.lazy="user.verify">
+                            </validate>
+                            <div class="verifyCode-image" :style="verifyCodeUrl" @click="flushVerifyCode"></div>
+                        </div>
 
-                    <b-row class="row_choice">
-                        <b-col><a href="#">Forgot your account or password?</a></b-col>
-                    </b-row>
-                    <b-row class="row_choice">
-                        <b-col><a href="#/register">Create account.</a></b-col>
-                    </b-row>
-                    <b-row class="row_choice">
-                        <b-col>
-                            <b-form-checkbox v-model="user.isRememberMe">Remember me a week.</b-form-checkbox>
-                        </b-col>
-                    </b-row>
+                        <b-row class="row_choice">
+                            <b-col><a href="#">Forgot your account or password?</a></b-col>
+                        </b-row>
+                        <b-row class="row_choice">
+                            <b-col><a href="#/register">Create account.</a></b-col>
+                        </b-row>
+                        <b-row class="row_choice">
+                            <b-col>
+                                <b-form-checkbox v-model="user.isRememberMe">Remember me a week.</b-form-checkbox>
+                            </b-col>
+                        </b-row>
 
-                    <b-row no-gutters class="row_submit">
-                        <b-col>
-                            <b-button variant="secondary" type="submit" class="login_button">submit</b-button>
-                        </b-col>
-                    </b-row>
-                </vue-form>
-            </b-col>
+                        <b-row no-gutters class="row_submit">
+                            <b-col>
+                                <b-button variant="secondary" type="submit" class="login_button">submit</b-button>
+                            </b-col>
+                        </b-row>
+                    </vue-form>
+                </b-col>
+            </transition>
         </b-row>
     </b-container>
 </template>
@@ -176,7 +178,8 @@
                 default :
                   this.loginInfo = 'Unknown error!';
                   this.showDismissibleAlert = true;
-              };
+              }
+              ;
               this.getVerifyCode(response_data.data);
             }
           ).catch(
