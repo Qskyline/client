@@ -29,9 +29,6 @@
           {
             key: 'tags',
             sortable: true,
-          },
-          {
-            key: 'belong'
           }
         ]
       }
@@ -42,8 +39,8 @@
         (response) => {
           var show = func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
-            if (show.data.length <= 0 || show.data[0].belong == null) {
-              this.fields.splice(4,1);
+            if (show.data.length > 0 && show.data[0].belong != null) {
+              this.fields.add({key: 'belong'});
             }
             this.machines = show.data;
           } else {
