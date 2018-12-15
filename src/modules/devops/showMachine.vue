@@ -40,7 +40,7 @@
           var show = func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
             if (show.data.length > 0 && show.data[0].belong != null) {
-              this.fields.push({key: 'belong'});
+              this.fields.push({key: 'belong', sortable: true});
             }
             this.machines = show.data;
           } else {
