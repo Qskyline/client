@@ -28,7 +28,7 @@
           },
           {
             key: 'tags',
-            sortable: true,
+            sortable: true
           }
         ]
       }
@@ -40,7 +40,7 @@
           var show = func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
             if (show.data.length > 0 && show.data[0].belong != null) {
-              this.fields.add({key: 'belong'});
+              this.fields.push({key: 'belong'});
             }
             this.machines = show.data;
           } else {
