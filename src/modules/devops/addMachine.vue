@@ -74,7 +74,7 @@
           loginUser: '',
           loginPassword: '',
           loginPort: 22,
-          region: ''
+          tags: ''
         },
         regions: [],
         isShowDetail: false

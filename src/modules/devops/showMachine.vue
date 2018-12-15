@@ -1,7 +1,7 @@
 <template>
     <b-row>
         <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="adaptation table-responsive">
-            <b-table striped hover :items="machines" :fields="fields"></b-table>
+            <b-table responsive striped hover :items="machines" :fields="fields"></b-table>
         </b-col>
     </b-row>
 </template>
@@ -29,6 +29,9 @@
           {
             key: 'tags',
             sortable: true,
+          },
+          {
+            key: 'belong'
           }
         ]
       }
@@ -39,6 +42,9 @@
         (response) => {
           var show = func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
+            if (show.data.length <= 0 || show.data[0].belong == null) {
+              this.fields.splice(4,1);
+            }
             this.machines = show.data;
           } else {
             this.$emit('msg', show);
