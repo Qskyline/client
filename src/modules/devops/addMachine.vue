@@ -56,10 +56,7 @@
                     <div v-show="isAdmin">
                         <validate auto-label class="form-group required-field">
                             <label>LoginCmd*</label>
-                            <input type="text" name="loginCmd" class="form-control" required v-model.lazy="machine.loginCmd">
-                            <field-messages name="loginCmd" show="$touched || $dirty || $submitted" class="form-control-feedback">
-                                <div slot="required">Please input content</div>
-                            </field-messages>
+                            <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
                         </validate>
                     </div>
                 </div></transition>
