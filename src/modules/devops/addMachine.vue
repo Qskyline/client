@@ -53,6 +53,15 @@
                             <div class="error" slot="max">the range is between 22 and 10000</div>
                         </field-messages>
                     </validate>
+                    <div v-show="isAdmin">
+                        <validate auto-label class="form-group required-field">
+                            <label>LoginCmd*</label>
+                            <input type="text" name="loginCmd" class="form-control" required v-model.lazy="machine.loginCmd">
+                            <field-messages name="loginCmd" show="$touched || $dirty || $submitted" class="form-control-feedback">
+                                <div slot="required">Please input content</div>
+                            </field-messages>
+                        </validate>
+                    </div>
                 </div></transition>
 
                 <div class="py-2 text-center">
@@ -65,6 +74,21 @@
 
 <script>
   export default {
+    created() {
+      this.GLOBAL.func.post('/security/hasRole.do', {role: 'admin'}).then(
+        (response) => {
+          var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
+          if (show.isSuccess) {
+            this.isAdmin = show.data === 'true';
+          }
+        }
+      ).catch(
+        () => {
+          var show = this.GLOBAL.func.postFailedCallback();
+          this.$emit('msg', show);
+        }
+      );
+    },
     data() {
       return {
         formstate: {},
@@ -74,10 +98,11 @@
           loginUser: '',
           loginPassword: '',
           loginPort: 22,
-          tags: ''
+          tags: '',
+          loginCmd: ''
         },
-        regions: [],
-        isShowDetail: false
+        isShowDetail: false,
+        isAdmin: false
       }
     },
     methods: {
