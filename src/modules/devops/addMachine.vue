@@ -63,6 +63,10 @@
                             <label>RootPassword</label>
                             <input type="text" name="RootPassword" class="form-control" v-model.lazy="machine.rootPassword">
                         </validate>
+                        <validate auto-label class="form-group">
+                            <label>RootCmd</label>
+                            <input type="text" name="rootCmd" class="form-control" v-model.lazy="machine.rootCmd">
+                        </validate>
                     </div>
                 </div></transition>
 
@@ -104,7 +108,8 @@
           loginCmd: '',
           activeSudoRoot: 'false',
           activeSuRoot: 'false',
-          rootPassword: ''
+          rootPassword: '',
+          rootCmd: ''
         },
         isShowDetail: false,
         isAdmin: false,
