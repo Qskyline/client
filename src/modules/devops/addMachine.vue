@@ -144,6 +144,7 @@
               if (show.isSuccess) {
                 this.formstate._reset();
                 Object.assign(this.$data.machine, this.$options.data().machine);
+                this.isShowDetail = false;
               }
             }
           ).catch(
