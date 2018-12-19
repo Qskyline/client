@@ -32,7 +32,7 @@
                     </field-messages>
                 </validate>
 
-                <div style="text-align: right"><a href="#" v-on:click="isShowDetail=!isShowDetail">showDetail</a></div>
+                <div style="text-align: right"><a href="#/maintain/addMachine" v-on:click="isShowDetail=!isShowDetail">showDetail</a></div>
                 <transition name="fade"><div v-show="isShowDetail">
                     <validate auto-label class="form-group required-field">
                         <label>LoginType*</label>
@@ -54,9 +54,14 @@
                         </field-messages>
                     </validate>
                     <div v-show="isAdmin">
-                        <validate auto-label class="form-group required-field">
-                            <label>LoginCmd*</label>
+                        <validate auto-label class="form-group">
+                            <label>LoginCmd</label>
                             <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
+                        </validate>
+                        <b-form-radio-group class="form-group" v-model="selected" :options="options" name="radioInline"></b-form-radio-group>
+                        <validate auto-label class="form-group" v-show="selected == 'ActiveSuRoot'">
+                            <label>RootPassword</label>
+                            <input type="text" name="RootPassword" class="form-control" v-model.lazy="machine.rootPassword">
                         </validate>
                     </div>
                 </div></transition>
@@ -96,16 +101,33 @@
           loginPassword: '',
           loginPort: 22,
           tags: '',
-          loginCmd: ''
+          loginCmd: '',
+          activeSudoRoot: 'false',
+          activeSuRoot: 'false',
+          rootPassword: ''
         },
         isShowDetail: false,
-        isAdmin: false
+        isAdmin: false,
+        options: [
+          { text: 'DeactivateRoot', value: 'DeactivateRoot' },
+          { text: 'ActiveSudoRoot', value: 'ActiveSudoRoot' },
+          { text: 'ActiveSuRoot', value: 'ActiveSuRoot' }
+        ],
+        selected: 'DeactivateRoot'
       }
     },
     methods: {
       submit: function () {
         if (this.formstate.$valid) {
           var func = this.GLOBAL.func;
+          switch (this.selected) {
+            case 'ActiveSudoRoot':
+              this.machine.activeSudoRoot = 'true';
+              break;
+            case 'ActiveSuRoot':
+              this.machine.activeSuRoot = 'true';
+              break;
+          }
           func.post('/security/addMachine.do', this.machine, {
             headers: {
               'Content-Type': 'application/json'
