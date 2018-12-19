@@ -143,7 +143,7 @@
               this.$emit('msg', show);
               if (show.isSuccess) {
                 this.formstate._reset();
-                Object.assign(this.$data, this.$options.data());
+                Object.assign(this.$data.machine, this.$options.data().machine);
               }
             }
           ).catch(
