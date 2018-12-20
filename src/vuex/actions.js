@@ -1,11 +1,11 @@
 import mutationTypes from './mutationTypes'
 
 const actions = {
-  updateLoginInfo: ({commit}, loginInfo) => {
-    commit(mutationTypes.UPDATE_LOGININFO, loginInfo)
+  actionUpdateIsShowSearch: ({commit}, isShowSearch) => {
+    commit(mutationTypes.UPDATE_ISSHOWSEARCH, isShowSearch)
   },
-  updateShowDismissibleAlert: ({commit}, showDismissibleAlert) => {
-    commit(mutationTypes.UPDATE_SHOWDISMISSIBLEALERT, showDismissibleAlert)
+  actionUpdateSearchWords: ({commit}, searchWords) => {
+    commit(mutationTypes.UPDATE_SEARCHWORDS, searchWords)
   }
 };
 

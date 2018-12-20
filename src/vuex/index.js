@@ -7,8 +7,6 @@ import mutations from './mutations'
 Vue.use(Vuex);
 
 const state = {
-  loginInfo: '',
-  showDismissibleAlert: false,
   isShowSearch: false,
   searchText: ''
 };
