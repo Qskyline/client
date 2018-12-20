@@ -1,12 +1,16 @@
 <template>
     <b-row>
         <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="adaptation table-responsive">
+            {{test}}
+        </b-col>
+        <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="adaptation table-responsive">
             <b-table responsive striped hover :items="machines" :fields="fields"></b-table>
         </b-col>
     </b-row>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     data() {
       return {
@@ -53,6 +57,11 @@
           this.$emit('msg', show);
         }
       );
+    },
+    computed: {
+      ...mapGetters({
+        test: 'getSearchWords'
+      })
     }
   }
 </script>

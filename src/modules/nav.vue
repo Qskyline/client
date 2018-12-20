@@ -1,45 +1,53 @@
 <template>
-  <b-navbar toggleable="md" type="light" variant="light" class="sticky-top navbar-expand-md">
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-    <b-navbar-brand href="#/home">devops</b-navbar-brand>
-    <b-collapse is-nav id="nav_collapse">
-      <b-navbar-nav>
-        <b-nav-item href="#/home">Machines</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown text="Operate" right>
-          <b-dropdown-item href="#/maintain/addMachine">add machine</b-dropdown-item>
-        </b-nav-item-dropdown>
-        <b-nav-item-dropdown right>
-          <template slot="button-content">
-            <em>User</em>
-          </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#/" v-on:click="logout">Signout</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
+    <b-navbar toggleable="md" type="light" variant="light" class="sticky-top navbar-expand-md">
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <b-navbar-brand href="#/home">devops</b-navbar-brand>
+        <b-collapse is-nav id="nav_collapse">
+            <b-navbar-nav>
+                <b-nav-item href="#/home">Machines</b-nav-item>
+            </b-navbar-nav>
+            <b-navbar-nav class="ml-auto">
+                <b-nav-form>
+                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" v-model.lazy="searchWords"/>
+                </b-nav-form>
+                <b-nav-item-dropdown text="Operate" right>
+                    <b-dropdown-item href="#/maintain/addMachine">add machine</b-dropdown-item>
+                </b-nav-item-dropdown>
+                <b-nav-item-dropdown right>
+                    <template slot="button-content">
+                        <em>User</em>
+                    </template>
+                    <b-dropdown-item href="#">Profile</b-dropdown-item>
+                    <b-dropdown-item href="#/" v-on:click="logout">Signout</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
 </template>
 
 <script>
-export default {
-	methods: {
-	    logout: function() {
-	      var _logoutStatus = this.GLOBAL.logoutStatus;
-	      var func = this.GLOBAL.func;
-          func.post('/security/logout.do').then(
-	        (response) => {
-	          var response_data = response.data;
-	          if(response_data == _logoutStatus.LOGOUT_SUCCES) return true;
-	          else return false;
-	        }
-	      ).catch(
-            () => {
-              return false;
-            }
-          );
-	    }
-  	}
-}
+  import { mapMutations } from 'vuex'
+  import MUTATIONS from '../vuex/mutationTypes'
+  export default {
+    methods: {
+      logout: function () {
+        var _logoutStatus = this.GLOBAL.logoutStatus;
+        var func = this.GLOBAL.func;
+        func.post('/security/logout.do').then(
+          (response) => {
+            var response_data = response.data;
+            if (response_data == _logoutStatus.LOGOUT_SUCCES) return true;
+            else return false;
+          }
+        ).catch(
+          () => {
+            return false;
+          }
+        );
+      },
+      ...mapMutations({
+        searchWords: MUTATIONS.UPDATE_SEARCHWORDS
+      })
+    }
+  }
 </script>

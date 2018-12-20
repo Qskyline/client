@@ -1,3 +1,7 @@
-export const getLoginInfo = state => state.loginInfo
-export const getShowDismissibleAlert = state => state.showDismissibleAlert
-
+const getters = {
+  getLoginInfo: state => state.loginInfo,
+  getShowDismissibleAlert: state => state.showDismissibleAlert,
+  geIsShowSearch: state => state.isShowSearch,
+  getSearchWords: state => state.searchText
+};
+export default getters;
