@@ -8,7 +8,7 @@
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                 <b-nav-form>
-                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" v-model.lazy="searchWords"/>
+                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" :input="updateSearchWords(searchWords)" v-model.lazy="searchWords"/>
                 </b-nav-form>
                 <b-nav-item-dropdown text="Operate" right>
                     <b-dropdown-item href="#/maintain/addMachine">add machine</b-dropdown-item>
@@ -46,8 +46,13 @@
         );
       },
       ...mapMutations({
-        searchWords: MUTATIONS.UPDATE_SEARCHWORDS
+        updateSearchWords: MUTATIONS.UPDATE_SEARCHWORDS
       })
+    },
+    data() {
+      return {
+        searchWords: ''
+      }
     }
   }
 </script>
