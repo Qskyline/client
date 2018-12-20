@@ -7,7 +7,7 @@
                 <b-nav-item href="#/home">Machines</b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
-                <b-nav-form>
+                <b-nav-form v-show="isShowSearch">
                     <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" :input="updateSearchWords(searchWords)" v-model.lazy="searchWords"/>
                 </b-nav-form>
                 <b-nav-item-dropdown text="Operate" right>
@@ -27,6 +27,7 @@
 
 <script>
   import { mapMutations } from 'vuex'
+  import { mapGetters } from 'vuex'
   import MUTATIONS from '../vuex/mutationTypes'
   export default {
     methods: {
@@ -53,6 +54,11 @@
       return {
         searchWords: ''
       }
+    },
+    computed: {
+      ...mapGetters({
+        isShowSearch: 'geIsShowSearch'
+      })
     }
   }
 </script>

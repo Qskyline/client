@@ -8,6 +8,8 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { mapMutations } from 'vuex'
+  import MUTATIONS from '../../vuex/mutationTypes'
   export default {
     data() {
       return {
@@ -35,6 +37,7 @@
       }
     },
     created() {
+      this.updateIsShowSearch(true);
       var func = this.GLOBAL.func;
       func.post('/security/getAllMachine.do').then(
         (response) => {
@@ -59,6 +62,14 @@
       ...mapGetters({
         filter: 'getSearchWords'
       })
+    },
+    methods: {
+      ...mapMutations({
+        updateIsShowSearch: MUTATIONS.UPDATE_ISSHOWSEARCH
+      })
+    },
+    beforeDestroy() {
+      this.updateIsShowSearch(false);
     }
   }
 </script>
