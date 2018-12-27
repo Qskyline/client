@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/security/': {
-            target: 'http://localhost:8080',
+            target: 'http://localhost:8890',
             changeOrigin: true
             /*onProxyRes: function() {
             },

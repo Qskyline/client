@@ -24,13 +24,6 @@
                         <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
-                <validate auto-label class="form-group required-field">
-                    <label>Tags*</label>
-                    <input type="text" name="tags" class="form-control" required v-model.lazy="machine.tags">
-                    <field-messages name="tags" show="$touched || $submitted" class="form-control-feedback">
-                        <div class="error" slot="required">Please input content</div>
-                    </field-messages>
-                </validate>
 
                 <div style="text-align: right"><a href="#/maintain/addMachine" v-on:click="isShowDetail=!isShowDetail">showDetail</a></div>
                 <transition name="fade"><div v-show="isShowDetail">
@@ -52,6 +45,17 @@
                             <div class="error" slot="min">the range is between 22 and 10000</div>
                             <div class="error" slot="max">the range is between 22 and 10000</div>
                         </field-messages>
+                    </validate>
+                    <validate auto-label class="form-group required-field">
+                        <label>Tags</label>
+                        <multiselect v-model="value"
+                                     placeholder="Type to search"
+                                     :options="moptions"
+                                     @select="multiselectSelect"
+                                     @remove="multiselectRemove"
+                                     :multiple="true">
+                            <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+                        </multiselect>
                     </validate>
                     <div v-show="isAdmin">
                         <validate auto-label class="form-group">
@@ -79,13 +83,28 @@
 </template>
 
 <script>
+  import Multiselect from 'vue-multiselect'
   export default {
+    components: { Multiselect },
     created() {
       this.GLOBAL.func.post('/security/hasRole.do', {role: 'admin'}).then(
         (response) => {
           var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
             this.isAdmin = show.data === 'true';
+          }
+        }
+      ).catch(
+        () => {
+          var show = this.GLOBAL.func.postFailedCallback();
+          this.$emit('msg', show);
+        }
+      );
+      this.GLOBAL.func.post('/security/getAllTag.do').then(
+        (response) => {
+          var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
+          if (show.isSuccess) {
+            this.moptions = show.data
           }
         }
       ).catch(
@@ -118,7 +137,9 @@
           { text: 'ActiveSudoRoot', value: 'ActiveSudoRoot' },
           { text: 'ActiveSuRoot', value: 'ActiveSuRoot' }
         ],
-        selected: 'DeactivateRoot'
+        selected: 'DeactivateRoot',
+        value: [],
+        moptions: []
       }
     },
     methods: {
@@ -154,11 +175,25 @@
             }
           );
         }
+      },
+      multiselectSelect: function (tag) {
+        var index;
+        for (var i = 0; i < this.moptions.length; i++) {
+          if (tag === this.moptions[i]) {
+            index = i;
+            break;
+          }
+        }
+        this.moptions.splice(i, 1);
+      },
+      multiselectRemove: function (tag) {
+        this.moptions.push(tag);
       }
     }
   }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
     /*vue animation*/
     .fade-enter-active, .fade-leave-active {
