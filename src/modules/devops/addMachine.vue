@@ -154,6 +154,9 @@
               this.machine.activeSuRoot = 'true';
               break;
           }
+          if (this.value != null && this.value.length > 0) {
+            this.machine.tags = this.value.join(',');
+          }
           func.post('/security/addMachine.do', this.machine, {
             headers: {
               'Content-Type': 'application/json'
