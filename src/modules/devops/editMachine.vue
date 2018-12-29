@@ -63,9 +63,12 @@
                             <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
                         </validate>
                         <b-form-radio-group class="form-group" v-model="selected" :options="options" name="radioInline"></b-form-radio-group>
-                        <validate auto-label class="form-group" v-show="selected == 'ActiveSuRoot'">
-                            <label>RootPassword</label>
-                            <input type="text" name="RootPassword" class="form-control" v-model.lazy="machine.rootPassword">
+                        <validate auto-label class="form-group required-field" v-if="selected == 'ActiveSuRoot'">
+                            <label>RootPassword*</label>
+                            <input type="text" name="rootPassword" class="form-control" required v-model.lazy="machine.rootPassword">
+                            <field-messages name="rootPassword" show="$touched || $submitted" class="form-control-feedback">
+                                <div class="error" slot="required">Please input content</div>
+                            </field-messages>
                         </validate>
                         <validate auto-label class="form-group">
                             <label>RootCmd</label>
