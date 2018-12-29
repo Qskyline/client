@@ -31,7 +31,7 @@
                         <label>LoginType*</label>
                         <select class="form-control" name="loginType" required v-model.lazy="machine.loginType">
                             <option value="password">Password</option>
-                            <option value="privateKey">Key</option>
+                            <option value="key">Key</option>
                         </select>
                         <field-messages name="loginType" show="$touched || $dirty || $submitted" class="form-control-feedback">
                             <div slot="required">Please input content</div>
@@ -84,6 +84,9 @@
 
 <script>
   import Multiselect from 'vue-multiselect'
+  import { mapGetters } from 'vuex'
+  import { mapMutations } from 'vuex'
+  import MUTATIONS from '../../vuex/mutationTypes'
   export default {
     components: { Multiselect },
     created() {
@@ -113,6 +116,32 @@
           this.$emit('msg', show);
         }
       );
+      if (this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
+        this.machine.id = this.getEditMachineInfo.id;
+        this.machine.loginType = this.getEditMachineInfo.loginType;
+        this.machine.ip = this.getEditMachineInfo.ip;
+        this.machine.loginPort = parseInt(this.getEditMachineInfo.sshPort);
+        this.machine.loginUser = this.getEditMachineInfo.loginUser;
+        this.machine.loginPassword = this.getEditMachineInfo.password;
+        this.machine.tags = this.getEditMachineInfo.tags;
+        if (this.machine.tags != null) {
+          this.value = this.machine.tags.split(',');
+        }
+        this.machine.desc = this.getEditMachineInfo.desc;
+        if (this.isAdmin) {
+          this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
+          this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
+          this.machine.activeSuRoot = this.getEditMachineInfo.rootPassword;
+          if (this.machine.activeSudoRoot == 'true') {
+            this.selected = 'ActiveSudoRoot';
+          } else if (this.machine.activeSuRoot == 'true') {
+            this.selected = 'ActiveSuRoot';
+          } else {
+            this.selected = 'DeactivateRoot';
+          }
+          this.machine.rootCmd = this.getEditMachineInfo.rootCmd;
+        }
+      }
     },
     data() {
       return {
@@ -177,6 +206,7 @@
               if (show.isSuccess) {
                 this.formstate._reset();
                 Object.assign(this.$data.machine, this.$options.data().machine);
+                this.clearEditInfo(null);
                 this.isShowDetail = false;
                 this.$router.push({path: '/home'});
               }
@@ -201,7 +231,15 @@
       },
       multiselectRemove: function (tag) {
         this.moptions.push(tag);
-      }
+      },
+      ...mapMutations({
+        clearEditInfo: MUTATIONS.UPDATE_EDITMACHINEINFO
+      }),
+    },
+    computed: {
+      ...mapGetters({
+        getEditMachineInfo: 'getEditMachineInfo'
+      })
     }
   }
 </script>

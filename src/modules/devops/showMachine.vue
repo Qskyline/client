@@ -6,7 +6,7 @@
                     <input class="password" readonly :type="type" :value="row.item.password" v-on:click="showPassword" />
                 </template>
                 <template slot="actions" slot-scope="row">
-                    <b-button size="sm" @click.stop="actionEdit(row.item.id)" class="mr-1">
+                    <b-button size="sm" @click.stop="machineEdit(row.item)" class="mr-1">
                         Edit
                     </b-button>
                 </template>
@@ -88,6 +88,10 @@
             this.type = 'password';
           }
         }, 1000);
+      },
+      machineEdit: function (data) {
+        this.actionEdit(data);
+        this.$router.push({path: '/maintain/editMachine'});
       }
     },
     beforeDestroy() {
