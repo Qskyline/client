@@ -3,7 +3,7 @@
         <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="adaptation table-responsive">
             <b-table responsive striped hover :items="machines" :fields="fields" :filter="filter">
                 <template slot="password" slot-scope="row">
-                    <input class="password" readonly :type="type" :value="row.item.password" v-on:click="showPassword" />
+                    <input class="password" readonly type="password" :ref="row.item.id" :id="row.item.id" :value="row.item.password" v-on:click="showPassword(row.item.id)" />
                 </template>
                 <template slot="actions" slot-scope="row">
                     <b-button size="sm" @click.stop="machineEdit(row.item)" class="mr-1">
@@ -41,8 +41,7 @@
           {
             key: 'password'
           }
-        ],
-        type: 'password'
+        ]
       }
     },
     created() {
@@ -78,14 +77,14 @@
         updateIsShowSearch: MUTATIONS.UPDATE_ISSHOWSEARCH,
         actionEdit: MUTATIONS.UPDATE_EDITMACHINEINFO
       }),
-      showPassword: function () {
-        this.type = 'text';
+      showPassword: function (id) {
+        this.$refs[id].type = 'text';
         var count = 6;
         var tt = setInterval(() => {
           count --;
           if (count == 0) {
+            this.$refs[id].type = 'password';
             clearInterval(tt);
-            this.type = 'password';
           }
         }, 1000);
       },
