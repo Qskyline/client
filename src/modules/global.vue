@@ -84,7 +84,7 @@
         break;
       case operationStatus.OPERATION_ERROR:
         result.msg_type = true;
-        result.msg = 'OPERATION FAILED!';
+        result.msg = response.errMsg;
         result.stat = 'danger';
         result.showDismissibleAlert = true;
         break;

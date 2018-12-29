@@ -11,7 +11,7 @@
                     <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" :input="updateSearchWords(searchWords)" v-model.lazy="searchWords"/>
                 </b-nav-form>
                 <b-nav-item-dropdown text="Operate" right>
-                    <b-dropdown-item href="#/maintain/editMachine">add machine</b-dropdown-item>
+                    <b-dropdown-item href="#/maintain/editMachine" v-on:click="addNewMachine">add machine</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <template slot="button-content">
@@ -47,7 +47,8 @@
         );
       },
       ...mapMutations({
-        updateSearchWords: MUTATIONS.UPDATE_SEARCHWORDS
+        updateSearchWords: MUTATIONS.UPDATE_SEARCHWORDS,
+        addNewMachine: MUTATIONS.UPDATE_ADDNEWMACHINECOUNT
       })
     },
     data() {

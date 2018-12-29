@@ -8,6 +8,9 @@ const mutations = {
   },
   [mutationTypes.UPDATE_EDITMACHINEINFO] (state, machineInfo) {
     state.editMachineInfo = machineInfo;
+  },
+  [mutationTypes.UPDATE_ADDNEWMACHINECOUNT] (state) {
+    state.addNewMachineCount ++;
   }
 };
 export default mutations

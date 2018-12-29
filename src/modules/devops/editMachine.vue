@@ -247,8 +247,19 @@
     },
     computed: {
       ...mapGetters({
-        getEditMachineInfo: 'getEditMachineInfo'
+        getEditMachineInfo: 'getEditMachineInfo',
+        addNewMachineEvent: 'getAddNewMachineCount'
       })
+    },
+    beforeDestroy() {
+      this.clearEditInfo(null);
+    },
+    watch: {
+      addNewMachineEvent: function () {
+        this.formstate._reset();
+        Object.assign(this.$data.machine, this.$options.data().machine);
+        this.clearEditInfo(null);
+      }
     }
   }
 </script>
