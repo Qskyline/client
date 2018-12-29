@@ -1,7 +1,16 @@
 <template>
     <b-row>
         <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="adaptation table-responsive">
-            <b-table responsive striped hover :items="machines" :fields="fields" :filter="filter"></b-table>
+            <b-table responsive striped hover :items="machines" :fields="fields" :filter="filter">
+                <template slot="password" slot-scope="row">
+                    <input class="password" readonly :type="type" :value="row.item.password" v-on:click="showPassword" />
+                </template>
+                <template slot="actions" slot-scope="row">
+                    <b-button size="sm" @click.stop="actionEdit(row.item.id)" class="mr-1">
+                        Edit
+                    </b-button>
+                </template>
+            </b-table>
         </b-col>
     </b-row>
 </template>
@@ -30,10 +39,10 @@
             sortable: true
           },
           {
-            key: 'tags',
-            sortable: true
+            key: 'password'
           }
-        ]
+        ],
+        type: 'password'
       }
     },
     created() {
@@ -46,6 +55,7 @@
             if (show.data.length > 0 && show.data[0].belong != null) {
               this.fields.push({key: 'belong', sortable: true});
             }
+            this.fields.push({key: 'actions'});
             this.machines = show.data;
           } else {
             this.$emit('msg', show);
@@ -65,8 +75,20 @@
     },
     methods: {
       ...mapMutations({
-        updateIsShowSearch: MUTATIONS.UPDATE_ISSHOWSEARCH
-      })
+        updateIsShowSearch: MUTATIONS.UPDATE_ISSHOWSEARCH,
+        actionEdit: MUTATIONS.UPDATE_EDITMACHINEINFO
+      }),
+      showPassword: function () {
+        this.type = 'text';
+        var count = 6;
+        var tt = setInterval(() => {
+          count --;
+          if (count == 0) {
+            clearInterval(tt);
+            this.type = 'password';
+          }
+        }, 1000);
+      }
     },
     beforeDestroy() {
       this.updateIsShowSearch(false);
@@ -79,6 +101,20 @@
         .adaptation {
             font-size: 0.4rem;
             padding: 0px !important;
+        }
+    }
+
+    .password{
+        border: none !important;
+        background-color: transparent !important;
+        width: 8rem !important;
+    }
+
+    @media (max-width: 500px) {
+        .password{
+            border: none !important;
+            background-color: transparent !important;
+            width: 3rem !important;
         }
     }
 </style>

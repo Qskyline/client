@@ -2,7 +2,7 @@ import login from './views/login'
 import register from './views/register'
 import home from './views/home'
 import showMachine from './modules/devops/showMachine'
-import addMachine from './modules/devops/addMachine'
+import editMachine from './modules/devops/editMachine'
 export default [
   {
     path: '/',
@@ -32,9 +32,9 @@ export default [
     component: home,
     children: [
       {
-        path: 'addMachine',
-        name: 'addMachine',
-        component: addMachine
+        path: 'editMachine',
+        name: 'editMachine',
+        component: editMachine
       }
     ]
   }

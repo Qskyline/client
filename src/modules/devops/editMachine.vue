@@ -25,7 +25,7 @@
                     </field-messages>
                 </validate>
 
-                <div style="text-align: right"><a href="#/maintain/addMachine" v-on:click="isShowDetail=!isShowDetail">showDetail</a></div>
+                <div style="text-align: right"><a href="#/maintain/editMachine" v-on:click="isShowDetail=!isShowDetail">showDetail</a></div>
                 <transition name="fade"><div v-show="isShowDetail">
                     <validate auto-label class="form-group required-field">
                         <label>LoginType*</label>
@@ -118,12 +118,21 @@
       return {
         formstate: {},
         machine: {
+          //判断新增还是编辑
+          id:'',
+
+          //必填
           loginType: 'password',
           ip: '',
+          loginPort: 22,
           loginUser: '',
           loginPassword: '',
-          loginPort: 22,
+
+          //选填
           tags: '',
+          desc: '',
+
+          //admin用户可选
           loginCmd: '',
           activeSudoRoot: 'false',
           activeSuRoot: 'false',
@@ -157,7 +166,7 @@
           if (this.value != null && this.value.length > 0) {
             this.machine.tags = this.value.join(',');
           }
-          func.post('/security/addMachine.do', this.machine, {
+          func.post('/security/editMachine.do', this.machine, {
             headers: {
               'Content-Type': 'application/json'
             }
@@ -169,6 +178,7 @@
                 this.formstate._reset();
                 Object.assign(this.$data.machine, this.$options.data().machine);
                 this.isShowDetail = false;
+                this.$router.push({path: '/home'});
               }
             }
           ).catch(

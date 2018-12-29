@@ -8,7 +8,8 @@ Vue.use(Vuex);
 
 const state = {
   isShowSearch: false,
-  searchText: ''
+  searchText: '',
+  editMachineInfo:''
 };
 
 export default new Vuex.Store({
