@@ -98,7 +98,7 @@
             if (this.isAdmin && this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
               this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
               this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
-              this.machine.activeSuRoot = this.getEditMachineInfo.rootPassword;
+              this.machine.activeSuRoot = this.getEditMachineInfo.isActiveSuRoot;
               if (this.machine.activeSudoRoot == 'true') {
                 this.selected = 'ActiveSudoRoot';
               } else if (this.machine.activeSuRoot == 'true') {
@@ -188,10 +188,15 @@
           switch (this.selected) {
             case 'ActiveSudoRoot':
               this.machine.activeSudoRoot = 'true';
+              this.machine.activeSuRoot = 'false';
               break;
             case 'ActiveSuRoot':
+              this.machine.activeSudoRoot = 'false';
               this.machine.activeSuRoot = 'true';
               break;
+            default:
+              this.machine.activeSudoRoot = 'false';
+              this.machine.activeSuRoot = 'false';
           }
           if (this.value != null && this.value.length > 0) {
             this.machine.tags = this.value.join(',');
