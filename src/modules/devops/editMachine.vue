@@ -95,6 +95,20 @@
           var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
             this.isAdmin = show.data === 'true';
+            if (this.isAdmin && this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
+              this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
+              this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
+              this.machine.activeSuRoot = this.getEditMachineInfo.rootPassword;
+              if (this.machine.activeSudoRoot == 'true') {
+                this.selected = 'ActiveSudoRoot';
+              } else if (this.machine.activeSuRoot == 'true') {
+                this.selected = 'ActiveSuRoot';
+              } else {
+                this.selected = 'DeactivateRoot';
+              }
+              this.machine.rootPassword = this.getEditMachineInfo.rootPassword;
+              this.machine.rootCmd = this.getEditMachineInfo.rootCmd;
+            }
           }
         }
       ).catch(
@@ -128,19 +142,6 @@
           this.value = this.machine.tags.split(',');
         }
         this.machine.desc = this.getEditMachineInfo.desc;
-        if (this.isAdmin) {
-          this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
-          this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
-          this.machine.activeSuRoot = this.getEditMachineInfo.rootPassword;
-          if (this.machine.activeSudoRoot == 'true') {
-            this.selected = 'ActiveSudoRoot';
-          } else if (this.machine.activeSuRoot == 'true') {
-            this.selected = 'ActiveSuRoot';
-          } else {
-            this.selected = 'DeactivateRoot';
-          }
-          this.machine.rootCmd = this.getEditMachineInfo.rootCmd;
-        }
       }
     },
     data() {
