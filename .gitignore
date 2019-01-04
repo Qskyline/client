@@ -7,4 +7,5 @@ yarn-error.log*
 .*
 !.gitignore
 !.babelrc
+!static/.gitkeep
 package-lock.json
