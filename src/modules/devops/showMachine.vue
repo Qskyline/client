@@ -51,7 +51,7 @@
         (response) => {
           var show = func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
-            if (show.data.length > 0 && show.data[0].belong != null) {
+            if (func.hasRole('admin')) {
               this.fields.push({key: 'belong', sortable: true});
             }
             this.fields.push({key: 'actions'});

@@ -57,7 +57,7 @@
                             <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
                         </multiselect>
                     </validate>
-                    <div v-show="isAdmin">
+                    <div v-show="this.GLOBAL.func.hasRole('admin')">
                         <validate auto-label class="form-group">
                             <label>LoginCmd</label>
                             <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
@@ -93,33 +93,6 @@
   export default {
     components: { Multiselect },
     created() {
-      this.GLOBAL.func.post('/security/hasRole.do', {role: 'admin'}).then(
-        (response) => {
-          var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
-          if (show.isSuccess) {
-            this.isAdmin = show.data === 'true';
-            if (this.isAdmin && this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
-              this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
-              this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
-              this.machine.activeSuRoot = this.getEditMachineInfo.isActiveSuRoot;
-              if (this.machine.activeSudoRoot == 'true') {
-                this.selected = 'ActiveSudoRoot';
-              } else if (this.machine.activeSuRoot == 'true') {
-                this.selected = 'ActiveSuRoot';
-              } else {
-                this.selected = 'DeactivateRoot';
-              }
-              this.machine.rootPassword = this.getEditMachineInfo.rootPassword;
-              this.machine.rootCmd = this.getEditMachineInfo.rootCmd;
-            }
-          }
-        }
-      ).catch(
-        () => {
-          var show = this.GLOBAL.func.postFailedCallback();
-          this.$emit('msg', show);
-        }
-      );
       this.GLOBAL.func.post('/security/getAllTag.do').then(
         (response) => {
           var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
@@ -145,6 +118,21 @@
           this.value = this.machine.tags.split(',');
         }
         this.machine.desc = this.getEditMachineInfo.desc;
+        //admin user initialize
+        if (this.GLOBAL.func.hasRole('admin')) {
+          this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
+          this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
+          this.machine.activeSuRoot = this.getEditMachineInfo.isActiveSuRoot;
+          if (this.machine.activeSudoRoot == 'true') {
+            this.selected = 'ActiveSudoRoot';
+          } else if (this.machine.activeSuRoot == 'true') {
+            this.selected = 'ActiveSuRoot';
+          } else {
+            this.selected = 'DeactivateRoot';
+          }
+          this.machine.rootPassword = this.getEditMachineInfo.rootPassword;
+          this.machine.rootCmd = this.getEditMachineInfo.rootCmd;
+        }
       }
     },
     data() {
@@ -173,7 +161,6 @@
           rootCmd: ''
         },
         isShowDetail: false,
-        isAdmin: false,
         options: [
           { text: 'DeactivateRoot', value: 'DeactivateRoot' },
           { text: 'ActiveSudoRoot', value: 'ActiveSudoRoot' },

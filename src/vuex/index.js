@@ -10,7 +10,8 @@ const state = {
   isShowSearch: false,
   searchText: '',
   editMachineInfo: '',
-  addNewMachineCount: 0
+  addNewMachineCount: 0,
+  userRole: 'user'
 };
 
 export default new Vuex.Store({

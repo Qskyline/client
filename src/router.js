@@ -3,6 +3,7 @@ import register from './views/register'
 import home from './views/home'
 import showMachine from './modules/devops/showMachine'
 import editMachine from './modules/devops/editMachine'
+import importMachine from './modules/devops/importMachine'
 export default [
   {
     path: '/',
@@ -35,6 +36,11 @@ export default [
         path: 'editMachine',
         name: 'editMachine',
         component: editMachine
+      },
+      {
+        path: 'importMachine',
+        name: 'importMachine',
+        component: importMachine
       }
     ]
   }

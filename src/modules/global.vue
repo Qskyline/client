@@ -1,5 +1,6 @@
 <script>
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
   const config = {
     prefix: ''
   };
@@ -126,6 +127,15 @@
     return result;
   }
 
+  function hasRole(role) {
+    var roles = this.userRole.split(',');
+    for (var r in roles) {
+      if (r === role)
+        return true;
+    }
+    return false;
+  }
+
   function post(url, params, profile) {
     var _url = config.prefix + url;
     return axios.post(_url, params, profile);
@@ -141,7 +151,13 @@
     func: {
       postSuccessCallback,
       postFailedCallback,
-      post
+      post,
+      hasRole
+    },
+    computed: {
+      ...mapGetters({
+        userRole: 'getUserRole'
+      })
     }
   }
 </script>
