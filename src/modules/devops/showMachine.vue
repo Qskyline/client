@@ -51,7 +51,7 @@
         (response) => {
           var show = func.postSuccessCallback(response.data, this.$router);
           if (show.isSuccess) {
-            if (func.hasRole('admin')) {
+            if (func.hasRole('admin', this.userRoles)) {
               this.fields.push({key: 'belong', sortable: true});
             }
             this.fields.push({key: 'actions'});
@@ -61,15 +61,16 @@
           }
         }
       ).catch(
-        (response) => {
-          var show = func.postFailedCallback(response.data);
+        () => {
+          var show = func.postFailedCallback();
           this.$emit('msg', show);
         }
       );
     },
     computed: {
       ...mapGetters({
-        filter: 'getSearchWords'
+        filter: 'getSearchWords',
+        userRoles: 'getUserRole'
       })
     },
     methods: {

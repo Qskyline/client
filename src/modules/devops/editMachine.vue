@@ -57,7 +57,7 @@
                             <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
                         </multiselect>
                     </validate>
-                    <div v-show="this.GLOBAL.func.hasRole('admin')">
+                    <div v-show="this.GLOBAL.func.hasRole('admin', userRoles)">
                         <validate auto-label class="form-group">
                             <label>LoginCmd</label>
                             <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
@@ -119,7 +119,7 @@
         }
         this.machine.desc = this.getEditMachineInfo.desc;
         //admin user initialize
-        if (this.GLOBAL.func.hasRole('admin')) {
+        if (this.GLOBAL.func.hasRole('admin', this.userRoles)) {
           this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
           this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
           this.machine.activeSuRoot = this.getEditMachineInfo.isActiveSuRoot;
@@ -208,8 +208,8 @@
               }
             }
           ).catch(
-            (response) => {
-              var show = func.postFailedCallback(response.data);
+            () => {
+              var show = func.postFailedCallback();
               this.$emit('msg', show);
             }
           );
@@ -235,7 +235,8 @@
     computed: {
       ...mapGetters({
         getEditMachineInfo: 'getEditMachineInfo',
-        addNewMachineEvent: 'getAddNewMachineCount'
+        addNewMachineEvent: 'getAddNewMachineCount',
+        userRoles: 'getUserRole'
       })
     },
     beforeDestroy() {

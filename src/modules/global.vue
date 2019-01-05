@@ -1,6 +1,5 @@
 <script>
   import axios from 'axios'
-  import { mapGetters } from 'vuex'
   const config = {
     prefix: ''
   };
@@ -110,7 +109,7 @@
     return result;
   }
 
-  function postFailedCallback() {
+  function postFailedCallback(msg) {
     var result = {
       isSuccess: false,
       data: '',
@@ -121,14 +120,18 @@
       dismissSecs: 0
     };
     result.msg_type = true;
-    result.msg = 'CONNECT LOSE!';
+    if (msg != null && typeof(msg) === 'string') {
+      result.msg = msg;
+    } else {
+        result.msg = 'CONNECT LOSE!';
+    }
     result.stat = 'danger';
     result.showDismissibleAlert = true;
     return result;
   }
 
-  function hasRole(role) {
-    var roles = this.userRole.split(',');
+  function hasRole(role, roles) {
+    var roles = roles.split(',');
     for (var r in roles) {
       if (r === role)
         return true;
@@ -153,11 +156,6 @@
       postFailedCallback,
       post,
       hasRole
-    },
-    computed: {
-      ...mapGetters({
-        userRole: 'getUserRole'
-      })
     }
   }
 </script>

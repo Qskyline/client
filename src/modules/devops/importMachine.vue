@@ -15,7 +15,14 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
+    created() {
+      if(!this.GLOBAL.func.hasRole('admin', this.userRoles)) {
+        this.$emit('msg', this.GLOBAL.func.postFailedCallback("You don't have the access to the page."));
+        this.$router.push({path: '/home'});
+      }
+    },
     data() {
       return {
         formstate: {},
@@ -40,13 +47,18 @@
               }
             }
           ).catch(
-            (response) => {
-              var show = func.postFailedCallback(response.data);
+            () => {
+              var show = func.postFailedCallback();
               this.$emit('msg', show);
             }
           );
         }
       }
+    },
+    computed: {
+      ...mapGetters({
+        userRoles: 'getUserRole'
+      })
     }
   }
 </script>

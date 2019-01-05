@@ -12,7 +12,7 @@
                 </b-nav-form>
                 <b-nav-item-dropdown text="Operate" right>
                     <b-dropdown-item href="#/maintain/editMachine" v-on:click="addNewMachine">add machine</b-dropdown-item>
-                    <b-dropdown-item href="#/maintain/importMachine" v-if="GLOBAL.func.hasRole('admin')">import machine</b-dropdown-item>
+                    <b-dropdown-item href="#/maintain/importMachine" v-if="GLOBAL.func.hasRole('admin', userRoles)">import machine</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <template slot="button-content">
@@ -59,7 +59,8 @@
     },
     computed: {
       ...mapGetters({
-        isShowSearch: 'geIsShowSearch'
+        isShowSearch: 'geIsShowSearch',
+        userRoles: 'getUserRole'
       })
     }
   }
