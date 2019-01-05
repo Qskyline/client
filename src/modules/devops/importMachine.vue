@@ -9,6 +9,9 @@
                         <div class="error" slot="required">Please input content</div>
                     </field-messages>
                 </validate>
+                <div class="py-2 text-center">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
             </vue-form>
         </b-col>
     </b-row>
@@ -19,7 +22,6 @@
   export default {
     created() {
       if(!this.GLOBAL.func.hasRole('admin', this.userRoles)) {
-        this.$emit('msg', this.GLOBAL.func.postFailedCallback("You don't have the access to the page."));
         this.$router.push({path: '/home'});
       }
     },

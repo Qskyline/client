@@ -57,7 +57,7 @@
                             <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
                         </multiselect>
                     </validate>
-                    <div v-show="this.GLOBAL.func.hasRole('admin', userRoles)">
+                    <div v-show="GLOBAL.func.hasRole('admin', userRoles)">
                         <validate auto-label class="form-group">
                             <label>LoginCmd</label>
                             <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">

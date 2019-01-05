@@ -21,24 +21,7 @@
 
 <script>
 import navigator from '../modules/nav'
-import { mapMutations } from 'vuex'
-import MUTATIONS from '../vuex/mutationTypes'
 export default {
-  created() {
-    this.GLOBAL.func.post('/security/getUserRole.do').then(
-      (response) => {
-        var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
-        if (show.isSuccess) {
-          this.setUserRole(show.data);
-        }
-      }
-    ).catch(
-      () => {
-        var show = this.GLOBAL.func.postFailedCallback();
-        this.$emit('msg', show);
-      }
-    );
-  },
   data() {
     return {
       showDismissibleAlert: false,
@@ -68,10 +51,7 @@ export default {
       }
       this.state = msg.stat;
       this.info = msg.msg;
-    },
-    ...mapMutations({
-      setUserRole: MUTATIONS.UPDATE_USERROLE
-    })
+    }
   },
   props: ['show']
 }

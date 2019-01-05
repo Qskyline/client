@@ -132,8 +132,8 @@
 
   function hasRole(role, roles) {
     var roles = roles.split(',');
-    for (var r in roles) {
-      if (r === role)
+    for (var i = 0, len = roles.length; i < len; i++) {
+      if (roles[i] === role)
         return true;
     }
     return false;
