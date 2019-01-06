@@ -22,6 +22,7 @@
   export default {
     data() {
       return {
+        isAdmin: false,
         count: 9,
         machines: [],
         isShow: false,
@@ -46,31 +47,17 @@
     },
     created() {
       this.updateIsShowSearch(true);
-      var func = this.GLOBAL.func;
-      func.post('/security/getAllMachine.do').then(
-        (response) => {
-          var show = func.postSuccessCallback(response.data, this.$router);
-          if (show.isSuccess) {
-            if (func.hasRole('admin', this.userRoles)) {
-              this.fields.push({key: 'belong', sortable: true});
-            }
-            this.fields.push({key: 'actions'});
-            this.machines = show.data;
-          } else {
-            this.$emit('msg', show);
-          }
-        }
-      ).catch(
-        () => {
-          var show = func.postFailedCallback();
-          this.$emit('msg', show);
-        }
-      );
+      this.getAllMachine().then((response) => {
+        this.hasRole('admin').then(() => {
+          this.fields.push({key: 'belong', sortable: true});
+        });
+        this.fields.push({key: 'actions'});
+        this.machines = response;
+      });
     },
     computed: {
       ...mapGetters({
-        filter: 'getSearchWords',
-        userRoles: 'getUserRole'
+        filter: 'getSearchWords'
       })
     },
     methods: {

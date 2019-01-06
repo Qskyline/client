@@ -12,8 +12,8 @@ const mutations = {
   [mutationTypes.UPDATE_ADDNEWMACHINECOUNT] (state) {
     state.addNewMachineCount ++;
   },
-  [mutationTypes.UPDATE_USERROLE] (state, role) {
-    state.userRole = role;
+  [mutationTypes.UPDATE_ALERTMSG] (state, alertMsg) {
+    state.alertMsg = alertMsg;
   }
 };
 export default mutations

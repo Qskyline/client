@@ -1,6 +1,6 @@
 <template>
     <b-row no-gutters align-h="center">
-        <b-col cols="12" sm="12" md="11" lg="6" xl="6">
+        <b-col cols="12" sm="12" md="11" lg="6" xl="6" v-if="userRoles != 'user'">
             <vue-form :state="formstate" v-model="formstate" @submit.prevent="submit">
                 <validate auto-label class="form-group required-field">
                     <label>Keypass-XML-URL</label>
@@ -18,12 +18,12 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   export default {
     created() {
-      if(!this.GLOBAL.func.hasRole('admin', this.userRoles)) {
+      var func = this.GLOBAL.func;
+      func.hasRole('admin').catch(() => {
         this.$router.push({path: '/home'});
-      }
+      });
     },
     data() {
       return {
@@ -34,33 +34,12 @@
     methods: {
       submit: function () {
         if (this.formstate.$valid) {
-          var func = this.GLOBAL.func;
-          func.post('/security/importMachine.do', {url: this.keypassXmlUrl}, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then(
-            (response) => {
-              var show = func.postSuccessCallback(response.data, this.$router);
-              this.$emit('msg', show);
-              if (show.isSuccess) {
-                this.formstate._reset();
-                this.keypassXmlUrl = '';
-              }
-            }
-          ).catch(
-            () => {
-              var show = func.postFailedCallback();
-              this.$emit('msg', show);
-            }
-          );
+          this.importMachine({url: this.keypassXmlUrl}).then(() => {
+            this.formstate._reset();
+            this.keypassXmlUrl = '';
+          });
         }
       }
-    },
-    computed: {
-      ...mapGetters({
-        userRoles: 'getUserRole'
-      })
     }
   }
 </script>

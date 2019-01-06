@@ -20,6 +20,7 @@
 </b-container></template>
 
 <script>
+import { mapGetters } from 'vuex'
 import navigator from '../modules/nav'
 export default {
   data() {
@@ -51,6 +52,16 @@ export default {
       }
       this.state = msg.stat;
       this.info = msg.msg;
+    }
+  },
+  computed: {
+    ...mapGetters({
+      alter_msg: 'getAlertMsg'
+    })
+  },
+  watch: {
+    alter_msg: function () {
+      this.showAlert(this.alter_msg)
     }
   },
   props: ['show']

@@ -1,5 +1,10 @@
 <script>
   import axios from 'axios'
+  import routerConfig from '../router'
+  import VueRouter from 'vue-router'
+
+  const router = new VueRouter({routes: routerConfig});
+
   const config = {
     prefix: ''
   };
@@ -41,7 +46,7 @@
     OPERATION_ERROR_ACCESS_DENY: 402
   };
 
-  function postSuccessCallback(response, _router) {
+  function postSuccessCallback(response) {
     var result = {
       isSuccess: false,
       data: '',
@@ -62,7 +67,7 @@
         result.isSuccess = true;
         break;
       case runStatus.STATUS_NOLOGGED:
-        _router.push({name: 'login'});
+        router.push('/');
         break;
       case runStatus.STATUS_SESSION_TIMEOUT:
         result.msg_type = true;
@@ -70,7 +75,7 @@
         result.stat = 'info';
         result.showDismissibleAlert = true;
         setTimeout(function() {
-          _router.push({name: 'login'});
+          router.push('/');
         }, 5000);
         break;
       case runStatus.STATUS_SESSION_SINGLE_USER_RESTRICTION:
@@ -79,7 +84,7 @@
         result.stat = 'info';
         result.showDismissibleAlert = true;
         setTimeout(function() {
-          _router.push({name: 'login'});
+          router.push('/');
         }, 5000);
         break;
       case operationStatus.OPERATION_ERROR:
@@ -130,13 +135,26 @@
     return result;
   }
 
-  function hasRole(role, roles) {
-    var roles = roles.split(',');
-    for (var i = 0, len = roles.length; i < len; i++) {
-      if (roles[i] === role)
-        return true;
-    }
-    return false;
+  function hasRole(role) {
+    return new Promise(function (resolve, reject) {
+      post('/security/hasRole.do', {role: role}).then(
+        (response) => {
+          var data = postSuccessCallback(response.data, router);
+          if (data.isSuccess){
+            if (data.data === 'true') {
+              resolve();
+            }
+          } else {
+            reject(data);
+          }
+        }
+      ).catch(
+        () => {
+         var data = postFailedCallback("You don't have the permission to access the page.");
+         reject(data);
+        }
+      );
+    });
   }
 
   function post(url, params, profile) {

@@ -12,7 +12,7 @@
                 </b-nav-form>
                 <b-nav-item-dropdown text="Operate" right>
                     <b-dropdown-item href="#/maintain/editMachine" v-on:click="addNewMachine">add machine</b-dropdown-item>
-                    <b-dropdown-item href="#/maintain/importMachine" v-if="GLOBAL.func.hasRole('admin', userRoles)">import machine</b-dropdown-item>
+                    <b-dropdown-item href="#/maintain/importMachine" v-if="isAdmin">import machine</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown right>
                     <template slot="button-content">
@@ -31,6 +31,11 @@
   import { mapGetters } from 'vuex'
   import MUTATIONS from '../vuex/mutationTypes'
   export default {
+    created() {
+      this.hasRole('admin').then(() => {
+        this.isAdmin = true;
+      });
+    },
     methods: {
       logout: function () {
         var _logoutStatus = this.GLOBAL.logoutStatus;
@@ -54,13 +59,13 @@
     },
     data() {
       return {
-        searchWords: ''
+        searchWords: '',
+        isAdmin: false
       }
     },
     computed: {
       ...mapGetters({
-        isShowSearch: 'geIsShowSearch',
-        userRoles: 'getUserRole'
+        isShowSearch: 'geIsShowSearch'
       })
     }
   }

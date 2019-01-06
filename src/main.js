@@ -9,6 +9,7 @@ import Meta from 'vue-meta'
 import _global from './modules/global'
 import md5 from 'js-md5'
 import Qs from 'qs'
+import http from './utils/http'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -32,6 +33,7 @@ var options = {
   }
 };
 Vue.use(VueForm, options);
+Vue.use(http);
 
 const router = new VueRouter({routes: routerConfig});
 

@@ -25,57 +25,66 @@
                     </field-messages>
                 </validate>
 
-                <div style="text-align: right"><a href="#/maintain/editMachine" v-on:click="isShowDetail=!isShowDetail">showDetail</a></div>
-                <transition name="fade"><div v-show="isShowDetail">
-                    <validate auto-label class="form-group required-field">
-                        <label>LoginType*</label>
-                        <select class="form-control" name="loginType" required v-model.lazy="machine.loginType">
-                            <option value="password">Password</option>
-                            <option value="key">Key</option>
-                        </select>
-                        <field-messages name="loginType" show="$touched || $dirty || $submitted" class="form-control-feedback">
-                            <div slot="required">Please input content</div>
-                        </field-messages>
-                    </validate>
-                    <validate auto-label class="form-group required-field">
-                        <label>LoginPort*</label>
-                        <input type="number" name="loginPort" class="form-control" min="22" max="10000" required v-model.lazy="machine.loginPort">
-                        <field-messages name="loginPort" show="$touched || $submitted" class="form-control-feedback">
-                            <div class="error" slot="required">Please input content</div>
-                            <div class="error" slot="min">the range is between 22 and 10000</div>
-                            <div class="error" slot="max">the range is between 22 and 10000</div>
-                        </field-messages>
-                    </validate>
-                    <validate auto-label class="form-group required-field">
-                        <label>Tags</label>
-                        <multiselect v-model="value"
-                                     placeholder="Type to search"
-                                     :options="moptions"
-                                     @select="multiselectSelect"
-                                     @remove="multiselectRemove"
-                                     :multiple="true">
-                            <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-                        </multiselect>
-                    </validate>
-                    <div v-show="GLOBAL.func.hasRole('admin', userRoles)">
-                        <validate auto-label class="form-group">
-                            <label>LoginCmd</label>
-                            <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
-                        </validate>
-                        <b-form-radio-group class="form-group" v-model="selected" :options="options" name="radioInline"></b-form-radio-group>
-                        <validate auto-label class="form-group required-field" v-if="selected == 'ActiveSuRoot'">
-                            <label>RootPassword*</label>
-                            <input type="text" name="rootPassword" class="form-control" required v-model.lazy="machine.rootPassword">
-                            <field-messages name="rootPassword" show="$touched || $submitted" class="form-control-feedback">
-                                <div class="error" slot="required">Please input content</div>
+                <div style="text-align: right"><a href="#/maintain/editMachine" v-on:click="isShowDetail=!isShowDetail">showDetail</a>
+                </div>
+                <transition name="fade">
+                    <div v-show="isShowDetail">
+                        <validate auto-label class="form-group required-field">
+                            <label>LoginType*</label>
+                            <select class="form-control" name="loginType" required v-model.lazy="machine.loginType">
+                                <option value="password">Password</option>
+                                <option value="key">Key</option>
+                            </select>
+                            <field-messages name="loginType" show="$touched || $dirty || $submitted"
+                                            class="form-control-feedback">
+                                <div slot="required">Please input content</div>
                             </field-messages>
                         </validate>
-                        <validate auto-label class="form-group">
-                            <label>RootCmd</label>
-                            <input type="text" name="rootCmd" class="form-control" v-model.lazy="machine.rootCmd">
+                        <validate auto-label class="form-group required-field">
+                            <label>LoginPort*</label>
+                            <input type="number" name="loginPort" class="form-control" min="22" max="10000" required
+                                   v-model.lazy="machine.loginPort">
+                            <field-messages name="loginPort" show="$touched || $submitted"
+                                            class="form-control-feedback">
+                                <div class="error" slot="required">Please input content</div>
+                                <div class="error" slot="min">the range is between 22 and 10000</div>
+                                <div class="error" slot="max">the range is between 22 and 10000</div>
+                            </field-messages>
                         </validate>
+                        <validate auto-label class="form-group required-field">
+                            <label>Tags</label>
+                            <multiselect v-model="value"
+                                         placeholder="Type to search"
+                                         :options="moptions"
+                                         @select="multiselectSelect"
+                                         @remove="multiselectRemove"
+                                         :multiple="true">
+                                <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+                            </multiselect>
+                        </validate>
+                        <div v-show="isAdmin">
+                            <validate auto-label class="form-group">
+                                <label>LoginCmd</label>
+                                <input type="text" name="loginCmd" class="form-control" v-model.lazy="machine.loginCmd">
+                            </validate>
+                            <b-form-radio-group class="form-group" v-model="selected" :options="options"
+                                                name="radioInline"></b-form-radio-group>
+                            <validate auto-label class="form-group required-field" v-if="selected == 'ActiveSuRoot'">
+                                <label>RootPassword*</label>
+                                <input type="text" name="rootPassword" class="form-control" required
+                                       v-model.lazy="machine.rootPassword">
+                                <field-messages name="rootPassword" show="$touched || $submitted"
+                                                class="form-control-feedback">
+                                    <div class="error" slot="required">Please input content</div>
+                                </field-messages>
+                            </validate>
+                            <validate auto-label class="form-group">
+                                <label>RootCmd</label>
+                                <input type="text" name="rootCmd" class="form-control" v-model.lazy="machine.rootCmd">
+                            </validate>
+                        </div>
                     </div>
-                </div></transition>
+                </transition>
 
                 <div class="py-2 text-center">
                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -87,39 +96,31 @@
 
 <script>
   import Multiselect from 'vue-multiselect'
-  import { mapGetters } from 'vuex'
-  import { mapMutations } from 'vuex'
+  import {mapGetters} from 'vuex'
+  import {mapMutations} from 'vuex'
   import MUTATIONS from '../../vuex/mutationTypes'
+
   export default {
-    components: { Multiselect },
+    components: {Multiselect},
     created() {
-      this.GLOBAL.func.post('/security/getAllTag.do').then(
-        (response) => {
-          var show = this.GLOBAL.func.postSuccessCallback(response.data, this.$router);
-          if (show.isSuccess) {
-            this.moptions = show.data
+      this.getAllTag().then((response) => {
+        this.moptions = response;
+        if (this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
+          this.machine.tags = this.getEditMachineInfo.tags;
+          if (this.machine.tags != null) {
+            var tags = this.machine.tags.split(',');
+            for (var i = 0, len = tags.length; i < len; i++) {
+              this.multiselectSelect(tags[i]);
+              this.value.push(tags[i]);
+            }
           }
         }
-      ).catch(
-        () => {
-          var show = this.GLOBAL.func.postFailedCallback();
-          this.$emit('msg', show);
-        }
-      );
-      if (this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
-        this.machine.id = this.getEditMachineInfo.id;
-        this.machine.loginType = this.getEditMachineInfo.loginType;
-        this.machine.ip = this.getEditMachineInfo.ip;
-        this.machine.loginPort = parseInt(this.getEditMachineInfo.sshPort);
-        this.machine.loginUser = this.getEditMachineInfo.loginUser;
-        this.machine.loginPassword = this.getEditMachineInfo.password;
-        this.machine.tags = this.getEditMachineInfo.tags;
-        if (this.machine.tags != null) {
-          this.value = this.machine.tags.split(',');
-        }
-        this.machine.desc = this.getEditMachineInfo.desc;
+      });
+
+      this.hasRole('admin').then(() => {
+        this.isAdmin = true;
         //admin user initialize
-        if (this.GLOBAL.func.hasRole('admin', this.userRoles)) {
+        if (this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
           this.machine.loginCmd = this.getEditMachineInfo.loginCmd;
           this.machine.activeSudoRoot = this.getEditMachineInfo.isActiveSudoRoot;
           this.machine.activeSuRoot = this.getEditMachineInfo.isActiveSuRoot;
@@ -133,14 +134,25 @@
           this.machine.rootPassword = this.getEditMachineInfo.rootPassword;
           this.machine.rootCmd = this.getEditMachineInfo.rootCmd;
         }
+      });
+
+      if (this.getEditMachineInfo != null && this.getEditMachineInfo.id != null) {
+        this.machine.id = this.getEditMachineInfo.id;
+        this.machine.loginType = this.getEditMachineInfo.loginType;
+        this.machine.ip = this.getEditMachineInfo.ip;
+        this.machine.loginPort = parseInt(this.getEditMachineInfo.sshPort);
+        this.machine.loginUser = this.getEditMachineInfo.loginUser;
+        this.machine.loginPassword = this.getEditMachineInfo.password;
+        this.machine.desc = this.getEditMachineInfo.desc;
       }
     },
     data() {
       return {
+        isAdmin: false,
         formstate: {},
         machine: {
           //判断新增还是编辑
-          id:'',
+          id: '',
 
           //必填
           loginType: 'password',
@@ -162,9 +174,9 @@
         },
         isShowDetail: false,
         options: [
-          { text: 'DeactivateRoot', value: 'DeactivateRoot' },
-          { text: 'ActiveSudoRoot', value: 'ActiveSudoRoot' },
-          { text: 'ActiveSuRoot', value: 'ActiveSuRoot' }
+          {text: 'DeactivateRoot', value: 'DeactivateRoot'},
+          {text: 'ActiveSudoRoot', value: 'ActiveSudoRoot'},
+          {text: 'ActiveSuRoot', value: 'ActiveSuRoot'}
         ],
         selected: 'DeactivateRoot',
         value: [],
@@ -174,7 +186,6 @@
     methods: {
       submit: function () {
         if (this.formstate.$valid) {
-          var func = this.GLOBAL.func;
           switch (this.selected) {
             case 'ActiveSudoRoot':
               this.machine.activeSudoRoot = 'true';
@@ -191,28 +202,10 @@
           if (this.value != null && this.value.length > 0) {
             this.machine.tags = this.value.join(',');
           }
-          func.post('/security/editMachine.do', this.machine, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then(
-            (response) => {
-              var show = func.postSuccessCallback(response.data, this.$router);
-              this.$emit('msg', show);
-              if (show.isSuccess) {
-                this.formstate._reset();
-                Object.assign(this.$data.machine, this.$options.data().machine);
-                this.clearEditInfo(null);
-                this.isShowDetail = false;
-                this.$router.push({path: '/home'});
-              }
-            }
-          ).catch(
-            () => {
-              var show = func.postFailedCallback();
-              this.$emit('msg', show);
-            }
-          );
+          this.editMachine(this.machine).then(() => {
+            this.initForm();
+            this.$router.push({path: '/home'});
+          });
         }
       },
       multiselectSelect: function (tag) {
@@ -228,6 +221,19 @@
       multiselectRemove: function (tag) {
         this.moptions.push(tag);
       },
+      initForm: function () {
+        this.formstate._reset();
+        Object.assign(this.$data.machine, this.$options.data().machine);
+        this.clearEditInfo(null);
+        this.isShowDetail = false;
+        if (this.value != null && this.value.length > 0) {
+          for (var i = 0, len = this.value.length; i < len; i++) {
+            this.multiselectRemove(this.value[i]);
+          }
+          this.value = [];
+        }
+        this.selected = 'DeactivateRoot';
+      },
       ...mapMutations({
         clearEditInfo: MUTATIONS.UPDATE_EDITMACHINEINFO
       }),
@@ -235,18 +241,15 @@
     computed: {
       ...mapGetters({
         getEditMachineInfo: 'getEditMachineInfo',
-        addNewMachineEvent: 'getAddNewMachineCount',
-        userRoles: 'getUserRole'
+        addNewMachineEvent: 'getAddNewMachineCount'
       })
     },
     beforeDestroy() {
-      this.clearEditInfo(null);
+      this.initForm();
     },
     watch: {
       addNewMachineEvent: function () {
-        this.formstate._reset();
-        Object.assign(this.$data.machine, this.$options.data().machine);
-        this.clearEditInfo(null);
+        this.initForm();
       }
     }
   }
@@ -258,6 +261,7 @@
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
+
     .fade-enter, .fade-leave-to {
         opacity: 0;
     }

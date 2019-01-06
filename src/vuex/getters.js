@@ -3,6 +3,6 @@ const getters = {
   getSearchWords: state => state.searchText,
   getEditMachineInfo: state => state.editMachineInfo,
   getAddNewMachineCount: state => state.addNewMachineCount,
-  getUserRole: state => state.userRole
+  getAlertMsg: state => state.alertMsg
 };
 export default getters;

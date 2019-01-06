@@ -11,7 +11,8 @@ const state = {
   searchText: '',
   editMachineInfo: '',
   addNewMachineCount: 0,
-  userRole: 'user'
+  alertMsg: ''
+
 };
 
 export default new Vuex.Store({
