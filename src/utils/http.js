@@ -2,7 +2,7 @@ import axios from 'axios'
 import global from '../global'
 import mutationTypes from '../vuex/mutationTypes'
 
-function postSuccessCallback(response) {
+function postSuccessCallback(response, router) {
   var result = {
     isSuccess: false,
     data: '',
@@ -26,7 +26,7 @@ function postSuccessCallback(response) {
       result.isSuccess = true;
       break;
     case runStatus.STATUS_NOLOGGED:
-      this.$router.push('/');
+      router.push('/');
       break;
     case runStatus.STATUS_SESSION_TIMEOUT:
       result.msg_type = true;
@@ -34,7 +34,7 @@ function postSuccessCallback(response) {
       result.stat = 'info';
       result.showDismissibleAlert = true;
       setTimeout(function () {
-        this.$router.push('/');
+        router.push('/');
       }, 5000);
       break;
     case runStatus.STATUS_SESSION_SINGLE_USER_RESTRICTION:
@@ -43,7 +43,7 @@ function postSuccessCallback(response) {
       result.stat = 'info';
       result.showDismissibleAlert = true;
       setTimeout(function () {
-        this.$router.push('/');
+        router.push('/');
       }, 5000);
       break;
     case operationStatus.OPERATION_ERROR:
@@ -129,10 +129,11 @@ function register(param) {
 
 function hasRole(role) {
   var store = this.$store;
+  var router = this.$router;
   return new Promise(function (resolve, reject) {
     post('/security/hasRole.do', {role: role}).then(
       (response) => {
-        var data = postSuccessCallback(response.data);
+        var data = postSuccessCallback(response.data, router);
         if (data.isSuccess) {
           if (data.data === 'true') {
             resolve();
@@ -158,10 +159,11 @@ function hasRole(role) {
 
 function getAllMachine() {
   var store = this.$store;
+  var router = this.$router;
   return new Promise(function (resolve, reject) {
     post('/security/getAllMachine.do').then(
       (response) => {
-        var data = postSuccessCallback(response.data);
+        var data = postSuccessCallback(response.data, router);
         if (data.isSuccess) {
           resolve(data.data);
         } else {
@@ -180,10 +182,11 @@ function getAllMachine() {
 
 function editMachine(machine) {
   var store = this.$store;
+  var router = this.$router;
   return new Promise(function (resolve, reject) {
     post('/security/editMachine.do', machine, {headers: {'Content-Type': 'application/json'}}).then(
       (response) => {
-        var show = postSuccessCallback(response.data);
+        var show = postSuccessCallback(response.data, router);
         store.commit(mutationTypes.UPDATE_ALERTMSG, show);
         if (show.isSuccess) {
           resolve();
@@ -202,10 +205,11 @@ function editMachine(machine) {
 
 function getAllTag() {
   var store = this.$store;
+  var router = this.$router;
   return new Promise(function (resolve, reject) {
     post('/security/getAllTag.do').then(
       (response) => {
-        var show = postSuccessCallback(response.data);
+        var show = postSuccessCallback(response.data, router);
         if (show.isSuccess) {
           resolve(show.data);
         } else {
@@ -224,10 +228,11 @@ function getAllTag() {
 
 function importMachine(param) {
   var store = this.$store;
+  var router = this.$router;
   return new Promise(function (resolve, reject) {
     post('/security/importMachine.do', param, {headers: {'Content-Type': 'application/json'}}).then(
       (response) => {
-        var show = postSuccessCallback(response.data);
+        var show = postSuccessCallback(response.data, router);
         store.commit(mutationTypes.UPDATE_ALERTMSG, show);
         if (show.isSuccess) {
           resolve();
