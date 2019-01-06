@@ -83,39 +83,17 @@ export default {
     submit: function() {
       if (this.formstate.$valid) {
         var router = this.$router;
-        var _registerStatus = this.GLOBAL.registerStatus;
-        var func = this.GLOBAL.func;
         var userEncrypt = {};
         userEncrypt.name = this.user.name;
         userEncrypt.mobile = this.user.mobile;
         userEncrypt.password = this.md5(this.user.password);
         userEncrypt.confirm = this.md5(this.user.confirm);
-        func.post('/security/register.do', this.Qs.stringify(userEncrypt), {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }).then(
-          (response) => {
-            var response_data = response.data;
-            switch(response_data.statusCode) {
-              case _registerStatus.REGISTER_SUCCESS:
-                router.push({name: 'login'});
-                break;
-              case _registerStatus.REGISTER_FAILED_U_E:
-              case _registerStatus.REGISTER_FAILED_M_E:
-              case _registerStatus.REGISTER_FAILED_UNKNOWN_ERROR:
-              case _registerStatus.REGISTER_FAILED_SECURITYCHECK:
-                this.loginInfo = response_data.errMsg;
-                this.showDismissibleAlert = true;
-                break;
-            }
-          }
-        ).catch(
-          () => {
-            this.loginInfo = 'System Error!';
-            this.showDismissibleAlert = true;
-          }
-        );
+        this.qregister(this.Qs.stringify(userEncrypt)).then(() => {
+          router.push({name: 'login'});
+        }).catch((response) => {
+          this.loginInfo = response.errMsg;
+          this.showDismissibleAlert = true;
+        });
       }
     }
   }

@@ -99,6 +99,34 @@ function post(url, params, profile) {
   return axios.post(_url, params, profile);
 }
 
+function register(param) {
+  return new Promise(function (resolve, reject) {
+    post('/security/register.do', param, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
+      (response) => {
+        var response_data = response.data;
+        var _registerStatus = global.registerStatus;
+        switch(response_data.statusCode) {
+          case _registerStatus.REGISTER_SUCCESS:
+            resolve();
+            break;
+          case _registerStatus.REGISTER_FAILED_U_E:
+          case _registerStatus.REGISTER_FAILED_M_E:
+          case _registerStatus.REGISTER_FAILED_UNKNOWN_ERROR:
+          case _registerStatus.REGISTER_FAILED_SECURITYCHECK:
+          default:
+            reject(response_data);
+        }
+      }).catch(
+      () => {
+        var data  = {};
+        data.errMsg = 'System Error!';
+        reject(data);
+      }
+    );
+  });
+}
+
+
 function hasRole(role) {
   var store = this.$store;
   return new Promise(function (resolve, reject) {
@@ -222,4 +250,5 @@ exports.install = function (Vue) {
   Vue.prototype.editMachine = editMachine;
   Vue.prototype.getAllTag = getAllTag;
   Vue.prototype.importMachine = importMachine;
+  Vue.prototype.qregister = register;
 };
