@@ -1,7 +1,7 @@
 <template>
     <b-row>
         <b-col cols="12" sm="12" md="12" lg="12" xl="12" class="adaptation table-responsive">
-            <b-table responsive striped hover :items="machines" :fields="fields" :filter="filter">
+            <b-table responsive hover :items="machines" :fields="fields" :filter="filter">
                 <template slot="password" slot-scope="row">
                     <input class="password" readonly type="password" :ref="row.item.id" :id="row.item.id" :value="row.item.password" v-on:click="showPassword(row.item.id)" />
                 </template>
