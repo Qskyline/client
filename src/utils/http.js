@@ -307,6 +307,6 @@ exports.install = function (Vue) {
   Vue.prototype.getAllTag = getAllTag;
   Vue.prototype.importMachine = importMachine;
   Vue.prototype.qregister = register;
-  Vue.prototype.login = login;
-  Vue.prototype.flushVerifyCode = flushVerifyCode;
+  Vue.prototype.qlogin = login;
+  Vue.prototype.qflushVerifyCode = flushVerifyCode;
 };

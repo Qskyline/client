@@ -137,7 +137,7 @@
           userEncrypt.password = this.md5(this.user.password);
           userEncrypt.isRememberMe = this.user.isRememberMe;
           userEncrypt.verify = this.user.verify;
-          this.login(this.Qs.stringify(userEncrypt)).then(() => {
+          this.qlogin(this.Qs.stringify(userEncrypt)).then(() => {
             this.state = 'info';
             this.help = ' in ';
             this.count = 5;
@@ -160,7 +160,7 @@
         }
       },
       flushVerifyCode: function () {
-        this.flushVerifyCode().then((response) => {
+        this.qflushVerifyCode().then((response) => {
           this.getVerifyCode(response);
         }).catch((response) => {
           this.loginInfo = response;
