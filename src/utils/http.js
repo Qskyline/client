@@ -139,7 +139,6 @@ function hasRole(role) {
             resolve();
           } else {
             var data = postFailedCallback("You don't have the permission to access the page.");
-            store.commit(mutationTypes.UPDATE_ALERTMSG, data);
             reject(data);
           }
         } else {

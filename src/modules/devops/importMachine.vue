@@ -13,10 +13,13 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
+  import MUTATIONS from '../../vuex/mutationTypes'
   export default {
     created() {
       var func = this.GLOBAL.func;
-      func.hasRole('admin').catch(() => {
+      func.hasRole('admin').catch((response) => {
+        this.alertMsg(response);
         this.$router.push({path: '/home'});
       });
     },
@@ -33,7 +36,10 @@
           this.keypassXmlFile = null;
           this.$refs.fileInput.reset();
         });
-      }
+      },
+      ...mapMutations({
+        alterMsg: MUTATIONS.UPDATE_ALERTMSG
+      })
     }
   }
 </script>
