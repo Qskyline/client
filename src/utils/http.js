@@ -105,7 +105,7 @@ function register(param) {
       (response) => {
         var response_data = response.data;
         var _registerStatus = global.registerStatus;
-        switch(response_data.statusCode) {
+        switch (response_data.statusCode) {
           case _registerStatus.REGISTER_SUCCESS:
             resolve();
             break;
@@ -118,7 +118,7 @@ function register(param) {
         }
       }).catch(
       () => {
-        var data  = {};
+        var data = {};
         data.errMsg = 'System Error!';
         reject(data);
       }
@@ -249,6 +249,57 @@ function importMachine(param) {
   });
 }
 
+function login(params) {
+  var router = this.$router;
+  return new Promise(function (resolve, reject) {
+    post('/security/login.do', params, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(
+      (response) => {
+        var _loginStatus = global.loginStatus;
+        var response_data = response.data;
+        switch (response_data.statusCode) {
+          case _loginStatus.LOGIN_SUCCESS:
+            router.push({path: '/home'});
+            break;
+          case _loginStatus.LOGIN_USER_ALREADY_LOGGED:
+            resolve();
+          case _loginStatus.LOGIN_AUTH_FAILED:
+          case _loginStatus.LOGIN_USER_LOCKED:
+          case _loginStatus.LOGIN_USER_NICKOUT_ERROR:
+          case _loginStatus.LOGIN_VERIFYCODE_ERROR:
+          case _loginStatus.LOGIN_VERIFYCODE_TIMEOUT:
+          case _loginStatus.LOGIN_UNKNOWN_ERROR:
+          case _loginStatus.LOGIN_SECURITY_SQLINJECTION:
+            reject(response_data);
+            break;
+          default :
+            var data = {};
+            data.errMsg = 'Unknown error!';
+            reject(data);
+            break;
+        }
+      }).catch(
+      () => {
+        var data = {};
+        data.errMsg = 'System Error!';
+        reject(data);
+      }
+    );
+  });
+}
+
+function flushVerifyCode() {
+  return new Promise(function (resolve, reject) {
+    post('/security/flushVerifyCode.do').then(
+      (response) => {
+        resolve(response.data.data);
+      }).catch(
+      () => {
+        reject('System Error!');
+      }
+    );
+  });
+}
+
 exports.install = function (Vue) {
   Vue.prototype.hasRole = hasRole;
   Vue.prototype.getAllMachine = getAllMachine;
@@ -256,4 +307,6 @@ exports.install = function (Vue) {
   Vue.prototype.getAllTag = getAllTag;
   Vue.prototype.importMachine = importMachine;
   Vue.prototype.qregister = register;
+  Vue.prototype.login = login;
+  Vue.prototype.flushVerifyCode = flushVerifyCode;
 };

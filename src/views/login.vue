@@ -131,80 +131,41 @@
     methods: {
       submit: function () {
         if (this.formstate.$valid) {
-          var _loginStatus = this.GLOBAL.loginStatus;
-          var func = this.GLOBAL.func;
           var router = this.$router;
           var userEncrypt = {};
           userEncrypt.name = this.user.name;
           userEncrypt.password = this.md5(this.user.password);
           userEncrypt.isRememberMe = this.user.isRememberMe;
           userEncrypt.verify = this.user.verify;
-          func.post('/security/login.do', this.Qs.stringify(userEncrypt), {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          }).then(
-            (response) => {
-              var response_data = response.data
-              switch (response_data.statusCode) {
-                case _loginStatus.LOGIN_SUCCESS:
-                  router.push({path: '/home'});
-                  break;
-                case _loginStatus.LOGIN_USER_ALREADY_LOGGED:
-                  this.state = 'info';
-                  this.help = ' in ';
-                  this.count = 5;
-                  this.unit = ' second!';
-                  var tt = setInterval(() => {
-                    this.count--;
-                    if (this.count == 0) {
-                      clearInterval(tt);
-                      router.push({path: '/home'});
-                    }
-                  }, 1000);
-                case _loginStatus.LOGIN_AUTH_FAILED:
-                case _loginStatus.LOGIN_USER_LOCKED:
-                case _loginStatus.LOGIN_USER_NICKOUT_ERROR:
-                case _loginStatus.LOGIN_VERIFYCODE_ERROR:
-                case _loginStatus.LOGIN_VERIFYCODE_TIMEOUT:
-                case _loginStatus.LOGIN_UNKNOWN_ERROR:
-                  this.loginInfo = response_data.errMsg;
-                  this.showDismissibleAlert = true;
-                  break;
-                case _loginStatus.LOGIN_SECURITY_SQLINJECTION:
-                  this.loginInfo = "To be honest, this Message should never come to you."
-                  this.showDismissibleAlert = true;
-                  break;
-                default :
-                  this.loginInfo = 'Unknown error!';
-                  this.showDismissibleAlert = true;
+          this.login(this.Qs.stringify(userEncrypt)).then(() => {
+            this.state = 'info';
+            this.help = ' in ';
+            this.count = 5;
+            this.unit = ' second!';
+            var tt = setInterval(() => {
+              this.count--;
+              if (this.count == 0) {
+                clearInterval(tt);
+                router.push({path: '/home'});
               }
-              ;
-              this.getVerifyCode(response_data.data);
-            }
-          ).catch(
-            () => {
-              this.loginInfo = 'System Error!';
-              this.showDismissibleAlert = true;
-            }
-          );
+            }, 1000);
+          }).catch((response) => {
+            this.loginInfo = response.errMsg;
+            this.showDismissibleAlert = true;
+            this.getVerifyCode(response);
+          });
         } else {
           this.loginInfo = 'Format Error!';
           this.showDismissibleAlert = true;
         }
       },
       flushVerifyCode: function () {
-        var func = this.GLOBAL.func;
-        func.post('/security/flushVerifyCode.do').then(
-          (response) => {
-            this.getVerifyCode(response.data.data);
-          }
-        ).catch(
-          () => {
-            this.loginInfo = 'System Error!';
-            this.showDismissibleAlert = true;
-          }
-        );
+        this.flushVerifyCode().then((response) => {
+          this.getVerifyCode(response);
+        }).catch((response) => {
+          this.loginInfo = response;
+          this.showDismissibleAlert = true;
+        });
       },
       getVerifyCode: function (data) {
         if (data != null && typeof (data.needVerifyCode) !== "undefined" && data.needVerifyCode == true) {
@@ -300,6 +261,7 @@
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
+
     .fade-enter, .fade-leave-to {
         opacity: 0;
     }
