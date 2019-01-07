@@ -230,7 +230,7 @@ function importMachine(param) {
   var store = this.$store;
   var router = this.$router;
   return new Promise(function (resolve, reject) {
-    post('/security/importMachine.do', param, {headers: {'Content-Type': 'application/json'}}).then(
+    post('/security/importMachine.do', param, {headers: {'Content-Type': 'multipart/form-data'}}).then(
       (response) => {
         var show = postSuccessCallback(response.data, router);
         store.commit(mutationTypes.UPDATE_ALERTMSG, show);
