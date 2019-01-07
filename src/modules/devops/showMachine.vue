@@ -41,6 +41,9 @@
           },
           {
             key: 'password'
+          },
+          {
+            key: 'actions'
           }
         ]
       }
@@ -49,9 +52,8 @@
       this.updateIsShowSearch(true);
       this.getAllMachine().then((response) => {
         this.hasRole('admin').then(() => {
-          this.fields.push({key: 'belong', sortable: true});
+          this.fields.splice(-1, 0, {key: 'belong', sortable: true});
         });
-        this.fields.push({key: 'actions'});
         this.machines = response;
       });
     },
