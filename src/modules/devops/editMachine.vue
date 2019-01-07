@@ -18,7 +18,7 @@
                 </validate>
                 <validate auto-label class="form-group required-field">
                     <label>LoginPassword*</label>
-                    <input type="text" name="loginPassword" class="form-control" required
+                    <input type="password" name="loginPassword" class="form-control" required
                            v-model.lazy="machine.loginPassword">
                     <field-messages name="loginPassword" show="$touched || $submitted" class="form-control-feedback">
                         <div class="error" slot="required">Please input content</div>
@@ -71,7 +71,7 @@
                                                 name="radioInline"></b-form-radio-group>
                             <validate auto-label class="form-group required-field" v-if="selected == 'ActiveSuRoot'">
                                 <label>RootPassword*</label>
-                                <input type="text" name="rootPassword" class="form-control" required
+                                <input type="password" name="rootPassword" class="form-control" required
                                        v-model.lazy="machine.rootPassword">
                                 <field-messages name="rootPassword" show="$touched || $submitted"
                                                 class="form-control-feedback">
