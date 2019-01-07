@@ -9,6 +9,16 @@
                     <b-button size="sm" @click.stop="machineEdit(row.item)" class="mr-1">
                         Edit
                     </b-button>
+                    <b-button size="sm" @click.stop="row.toggleDetails">
+                        {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                    </b-button>
+                </template>
+                <template slot="row-details" slot-scope="row">
+                    <b-card>
+                        <ul>
+                            <li v-for="(value, key) in row.item" :key="key" v-if="detailShow(key)">{{key}}: {{value}}</li>
+                        </ul>
+                    </b-card>
                 </template>
             </b-table>
         </b-col>
@@ -41,6 +51,10 @@
           },
           {
             key: 'password'
+          },
+          {
+            key: 'tags',
+            sortable: true
           },
           {
             key: 'actions'
@@ -81,6 +95,11 @@
       machineEdit: function (data) {
         this.actionEdit(data);
         this.$router.push({path: '/maintain/editMachine'});
+      },
+      detailShow: function (key) {
+        var showKeys = ['ip', 'sshPort', 'loginUser', 'password', 'tags', 'desc', 'belong'];
+        if (showKeys.indexOf(key) >= 0) return true;
+        return false;
       }
     },
     beforeDestroy() {
