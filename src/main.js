@@ -6,7 +6,6 @@ import BootstrapVue from 'bootstrap-vue'
 import store from './vuex/index'
 import VueForm from 'vue-form'
 import Meta from 'vue-meta'
-import _global from './modules/global'
 import md5 from 'js-md5'
 import Qs from 'qs'
 import http from './utils/http'
@@ -14,7 +13,6 @@ import http from './utils/http'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.prototype.GLOBAL = _global;
 Vue.prototype.md5 = md5;
 Vue.prototype.Qs = Qs;
 
