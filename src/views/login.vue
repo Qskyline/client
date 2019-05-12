@@ -13,7 +13,7 @@
             <transition name="fade">
                 <b-col class="col_login_frame" cols="10" md="4" lg="3" xl="2.1">
                     <b-row no-gutters class="text-center row_logo">
-                        <b-col>devops</b-col>
+                        <b-col>Skyline</b-col>
                     </b-row>
                     <b-row no-gutters align-h="center">
                         <b-col cols="10">
