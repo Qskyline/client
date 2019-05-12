@@ -4,6 +4,7 @@ import home from './views/home'
 import showMachine from './modules/devops/showMachine'
 import editMachine from './modules/devops/editMachine'
 import importMachine from './modules/devops/importMachine'
+
 export default [
   {
     path: '/',
