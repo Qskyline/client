@@ -117,7 +117,7 @@ function welcome() {
       (response) => {
         var data = common.postSuccessCallback(response.data, router);
         if (data.isSuccess) {
-            resolve();
+            resolve(data.data);
         } else {
           store.commit(mutationTypes.UPDATE_ALERTMSG, data);
           reject(data);
