@@ -109,25 +109,93 @@ function hasRole(role) {
   });
 }
 
-function welcome() {
+function getAllMachine() {
   var store = this.$store;
   var router = this.$router;
   return new Promise(function (resolve, reject) {
-    common.post('/security/getWelcomePageData.do').then(
+    common.post('/security/getAllMachine.do').then(
       (response) => {
         var data = common.postSuccessCallback(response.data, router);
         if (data.isSuccess) {
-            resolve(data.data);
+          resolve(data.data);
         } else {
           store.commit(mutationTypes.UPDATE_ALERTMSG, data);
           reject(data);
         }
-      }
-    ).catch(
+      }).catch(
       () => {
         var data = common.postFailedCallback();
         store.commit(mutationTypes.UPDATE_ALERTMSG, data);
         reject(data);
+      }
+    );
+  });
+}
+
+function editMachine(machine) {
+  var store = this.$store;
+  var router = this.$router;
+  return new Promise(function (resolve, reject) {
+    common.post('/security/editMachine.do', machine, {headers: {'Content-Type': 'application/json'}}).then(
+      (response) => {
+        var show = common.postSuccessCallback(response.data, router);
+        store.commit(mutationTypes.UPDATE_ALERTMSG, show);
+        if (show.isSuccess) {
+          resolve();
+        } else {
+          reject(show);
+        }
+      }).catch(
+      () => {
+        var data = common.postFailedCallback();
+        store.commit(mutationTypes.UPDATE_ALERTMSG, data);
+        reject(data)
+      }
+    );
+  });
+}
+
+function getAllTag() {
+  var store = this.$store;
+  var router = this.$router;
+  return new Promise(function (resolve, reject) {
+    common.post('/security/getAllTag.do').then(
+      (response) => {
+        var show = common.postSuccessCallback(response.data, router);
+        if (show.isSuccess) {
+          resolve(show.data);
+        } else {
+          store.commit(mutationTypes.UPDATE_ALERTMSG, show);
+          reject(data);
+        }
+      }).catch(
+      () => {
+        var data = common.postFailedCallback();
+        store.commit(mutationTypes.UPDATE_ALERTMSG, data);
+        reject(data)
+      }
+    );
+  });
+}
+
+function importMachine(param) {
+  var store = this.$store;
+  var router = this.$router;
+  return new Promise(function (resolve, reject) {
+    common.post('/security/importMachine.do', param, {headers: {'Content-Type': 'multipart/form-data'}}).then(
+      (response) => {
+        var show = common.postSuccessCallback(response.data, router);
+        store.commit(mutationTypes.UPDATE_ALERTMSG, show);
+        if (show.isSuccess) {
+          resolve();
+        } else {
+          reject(show);
+        }
+      }).catch(
+      () => {
+        var data = common.postFailedCallback();
+        store.commit(mutationTypes.UPDATE_ALERTMSG, data);
+        reject(data)
       }
     );
   });
@@ -138,5 +206,8 @@ exports.install = function (Vue) {
   Vue.prototype.qlogin = login;
   Vue.prototype.qflushVerifyCode = flushVerifyCode;
   Vue.prototype.hasRole = hasRole;
-  Vue.prototype.welcome = welcome;
+  Vue.prototype.getAllMachine = getAllMachine;
+  Vue.prototype.editMachine = editMachine;
+  Vue.prototype.getAllTag = getAllTag;
+  Vue.prototype.importMachine = importMachine;
 };

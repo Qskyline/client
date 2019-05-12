@@ -1,8 +1,9 @@
 import login from './views/login'
 import register from './views/register'
 import home from './views/home'
-import welcome from './modules/template/welcome'
-
+import showMachine from './modules/devops/showMachine'
+import editMachine from './modules/devops/editMachine'
+import importMachine from './modules/devops/importMachine'
 export default [
   {
     path: '/',
@@ -21,8 +22,25 @@ export default [
     children: [
       {
         path: '',
-        name: 'welcome',
-        component: welcome
+        name: 'showMachine',
+        component: showMachine
+      }
+    ]
+  },
+  {
+    path: '/maintain',
+    name: 'maintain',
+    component: home,
+    children: [
+      {
+        path: 'editMachine',
+        name: 'editMachine',
+        component: editMachine
+      },
+      {
+        path: 'importMachine',
+        name: 'importMachine',
+        component: importMachine
       }
     ]
   }
