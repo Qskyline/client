@@ -121,14 +121,14 @@ function logout() {
         } else {
           var data = common.postFailedCallback("退出失败");
           store.commit(mutationTypes.UPDATE_ALERTMSG, data);
-          reject();
+          reject(data);
         }
       }
     ).catch(
       () => {
         var data = common.postFailedCallback("退出失败");
         store.commit(mutationTypes.UPDATE_ALERTMSG, data);
-        reject();
+        reject(data);
       }
     );
   });
@@ -149,11 +149,10 @@ function checkLoginStatus() {
       () => {
         var data = common.postFailedCallback();
         store.commit(mutationTypes.UPDATE_ALERTMSG, data);
-        reject();
+        reject(data);
       }
     );
   });
-
 }
 
 function welcome() {
