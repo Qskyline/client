@@ -81,25 +81,9 @@
 <script>
   export default {
     created() {
-      var _runStatus = this.GLOBAL.runStatus;
-      var func = this.GLOBAL.func;
-      func.post('/security/check_loginStatus.do').then(
-        (response) => {
-          var response_data = response.data;
-          switch (response_data.statusCode) {
-            case _runStatus.STATUS_LOGGED:
-              this.$router.push({path: '/home'});
-              break;
-            case _runStatus.STATUS_NOLOGGED:
-            case _runStatus.STATUS_SESSION_TIMEOUT:
-            case _runStatus.STATUS_SESSION_SINGLE_USER_RESTRICTION:
-            case _runStatus.STATUS_ACCESS_DENY:
-              this.isShow = true;
-              this.getVerifyCode(response_data.data);
-              break;
-          }
-        }
-      );
+      this.checkLoginStatus().then(() => {
+        this.$router.push({path: '/home'});
+      });
     },
     data() {
       return {

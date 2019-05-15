@@ -9,8 +9,6 @@ Vue.use(Vuex);
 const state = {
   isShowSearch: false,
   searchText: '',
-  editMachineInfo: '',
-  addNewMachineCount: 0,
   alertMsg: ''
 
 };
