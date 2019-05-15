@@ -17,6 +17,7 @@
       this.welcome((response) => {
         this.pageData = response;
       });
+    }
   }
 </script>
 
