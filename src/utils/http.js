@@ -109,6 +109,53 @@ function hasRole(role) {
   });
 }
 
+function logout() {
+  var store = this.$store;
+  return new Promise(function (resolve, reject) {
+    common.post('/security/logout.do').then(
+      (response) => {
+        var _logoutStatus = global.logoutStatus;
+        var response_data = response.data;
+        if (response_data == _logoutStatus.LOGOUT_SUCCESS) {
+          resolve();
+        } else {
+          var data = common.postFailedCallback("退出失败");
+          store.commit(mutationTypes.UPDATE_ALERTMSG, data);
+          reject();
+        }
+      }
+    ).catch(
+      () => {
+        var data = common.postFailedCallback("退出失败");
+        store.commit(mutationTypes.UPDATE_ALERTMSG, data);
+        reject();
+      }
+    );
+  });
+}
+
+function checkLoginStatus() {
+  var store = this.$store;
+  var router = this.$router;
+  return new Promise(function (resolve, reject) {
+    common.post('/security/check_loginStatus.do').then(
+      (response) => {
+        var data = common.postSuccessCallback(response.data, router);
+        if (data.isSuccess) {
+          resolve()
+        }
+      }
+    ).catch(
+      () => {
+        var data = common.postFailedCallback();
+        store.commit(mutationTypes.UPDATE_ALERTMSG, data);
+        reject();
+      }
+    );
+  });
+
+}
+
 function welcome() {
   var store = this.$store;
   var router = this.$router;
@@ -139,4 +186,6 @@ exports.install = function (Vue) {
   Vue.prototype.qflushVerifyCode = flushVerifyCode;
   Vue.prototype.hasRole = hasRole;
   Vue.prototype.welcome = welcome;
+  Vue.prototype.qlogout = logout;
+  Vue.prototype.checkLoginStatus = checkLoginStatus;
 };
