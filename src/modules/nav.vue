@@ -4,7 +4,7 @@
         <b-navbar-brand href="#/home">devops</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav>
-                <b-nav-item href="#/home">Machines</b-nav-item>
+                <b-nav-item href="#/home">Skyline</b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                 <b-nav-form v-show="isShowSearch">
