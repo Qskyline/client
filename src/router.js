@@ -1,7 +1,7 @@
 import login from './views/login'
 import register from './views/register'
 import home from './views/home'
-import welcome from './modules/template/welcome'
+import userRole from './modules/manager/userRole'
 
 export default [
   {
@@ -21,8 +21,8 @@ export default [
     children: [
       {
         path: '',
-        name: 'welcome',
-        component: welcome
+        name: 'userRole',
+        component: userRole
       }
     ]
   }

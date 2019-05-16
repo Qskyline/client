@@ -1,10 +1,10 @@
 <template>
     <b-navbar toggleable="md" type="light" variant="light" class="sticky-top navbar-expand-md">
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-        <b-navbar-brand href="#/home">Skyline</b-navbar-brand>
+        <b-navbar-brand href="#/home">Manager</b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav>
-                <b-nav-item href="#/home">Skyline</b-nav-item>
+                <b-nav-item href="#/home">Manager</b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                 <b-nav-form v-show="isShowSearch">
